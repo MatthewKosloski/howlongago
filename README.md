@@ -1,25 +1,3 @@
-# webpack
-This is a boilerplate, or starting point, for building React apps with modular CSS.  Everything is powered by Webpack and NPM. No Bower or Gulp; Webpack handles everything.
+# howlongago
 
-## Dependencies
-To install the dependencies, run `npm install`.
-
-## Development
-```
-  $ npm run dev
-```
-
-## Production
-```
-  $ npm run build
-```
-
-## Test
-
-```
-  $ npm run test
-```
-
-```
-  $ npm run test:watch
-```
+A simple web app built with React that allows you to see elapsed time since a certain date.
