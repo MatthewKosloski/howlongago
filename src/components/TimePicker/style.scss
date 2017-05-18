@@ -1,0 +1,79 @@
+$blue: rgb(11, 88, 216);
+
+.component {
+	display: inline-block;
+}
+
+.hhmm {
+	border: 2px solid $blue;
+	border-radius: 4px;
+    padding: 6px 15px;
+	cursor: pointer;
+}
+
+.tooltip {
+	background-color: #fff;
+	//box-shadow: 0px 8px 25px 0 rgba(0, 0, 0, 0.1);
+    border: 2px solid $blue;
+    border-radius: 4px;
+    padding: 18px 20px;
+    z-index: 2;
+}
+
+.tooltipOuter {
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		left: 25px;
+		width: 16px;
+		height: 16px;
+		background-color: #fff;
+		border-radius: 4px 0 0 0;
+		transform: rotate(45deg);
+	}
+	&::before {
+		top: -6px;
+		border: 2px solid $blue;
+		z-index: 1;
+	}
+	&::after {
+		top: -3px;
+		z-index: 2;
+	}
+	transition: all 0.2s ease-in-out;
+	transform: translate3d(0, 0, 0);
+	position: absolute;
+    z-index: 2;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.tooltipOuterIsOpen {
+	transform: translate3d(0, 16px, 0);
+	visibility: visible;
+	opacity: 1;
+}
+
+.tooltipInner {
+	display: flex;
+}
+
+.timeInput {
+	margin-right: 20px;
+	display: flex;
+	align-items: center;
+}
+
+.numberInput {
+	width: 48px;
+	padding: 6px 0;
+	border: 2px solid $blue;
+	text-align: center;
+	border-radius: 4px;
+	color: $blue;
+}
+
+.delimiter {
+	margin: 0 8px;
+}
