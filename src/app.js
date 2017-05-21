@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import HowLongSince from './components/HowLongSince';
+import HowLongAgo from './components/HowLongAgo';
 
 const app = (
-	<HowLongSince/>
+	<HowLongAgo/>
 );
 
 render(app, document.getElementById('app'));
