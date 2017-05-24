@@ -1,5 +1,6 @@
-import React, { PropTypes, Component } from 'react';
-import * as utils from './utilities.js';
+import React, { Component } from 'react';
+import * as utils from './utilities';
+import DateInput from '../DateInput';
 import s from './style.scss';
 
 const AM = 'AM', PM = 'PM';
@@ -10,73 +11,60 @@ class howLongAgo extends Component {
 		super();
 
 		this.state = {
-			dateString: '10/17/1997', // utils.getCurrentDateString()
-			timeString: '02:50', // utils.getCurrentTimeString()
-			meridiem: 'AM', // utils.getCurrentTime().meridiem
+			date1: {
+				dateString: '10/17/1997',
+				timeString: '02:50',
+				meridiem: 'AM'
+			},
+			date2: {
+				dateString: utils.getCurrentDateString(),
+				timeString: utils.getCurrentTimeString(),
+				meridiem: utils.getCurrentTime().meridiem
+			},
 			data: null
 		};
 
 		this.handleDateChange = this.handleDateChange.bind(this);
-		this.handleDateKeyUp = this.handleDateKeyUp.bind(this);
 		this.handleTimeChange = this.handleTimeChange.bind(this);
-		this.handleTimeKeyUp = this.handleTimeKeyUp.bind(this);
 		this.handleMeridiemChange = this.handleMeridiemChange.bind(this);
+		this.handleTodayClick = this.handleTodayClick.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 	}
 
-	handleDateChange(e) {
-		const dateString = utils.validateDateInput(e.target.value);
-		this.setState({ dateString });
+	handleDateChange(key, dateString) {
+		let state = {};
+		state[key] = { ...this.state[key], dateString };
+		this.setState(state);
 	}
 
-	handleDateKeyUp(e) {
-		if(e.which === 8) {
-			e.target.value = '';
-			const dateString = '';
-			this.setState({ dateString });
-		}
+	handleTimeChange(key, timeString) {
+		let state = {};
+		state[key] = { ...this.state[key], timeString };
+		this.setState(state);
 	}
 
-	handleTimeChange(e) {
-		const timeString = utils.validateTimeInput(e.target.value);
-		this.setState({ timeString });
+	handleMeridiemChange(key, meridiem) {
+		let state = {};
+		state[key] = { ...this.state[key], meridiem };
+		this.setState(state);
 	}
 
-	handleTimeKeyUp(e) {
-		if(e.which === 8) {
-			e.target.value = '';
-			const timeString = '';
-			this.setState({ timeString });
-		}
-	}
-
-	handleMeridiemChange(e) {
-		const meridiem = e.target.value;
-		this.setState({ meridiem });
+	handleTodayClick(key, dateString, timeString, meridiem) {
+		let state = {};
+		state[key] = { ...this.state[key], dateString, timeString, meridiem };
+		this.setState(state);
 	}
 
 	handleFormSubmit(e) {
 		e.preventDefault();
-
-		const { dateString, timeString, meridiem } = this.state;
-
-		const date = utils.deconstructDateString(dateString); // MM/DD/YYYY -> {mm, dd, yy}
-		const time = utils.deconstructTimeString(timeString); // hh:mm -> {hh, mm}
-		const time24 = utils.toTwentyFourHours(String(time.hours), String(time.minutes), meridiem);
-
-		const { year, month, day } = date;
-		const { hours, minutes } = time24;
-
-		const dateObj = new Date(year, month - 1, day, hours, minutes);
-
-		const data = utils.getTimeSince(dateObj);
-
+		const { date1, date2 } = this.state;
+		const data = utils.getDifferenceOfDates(date1, date2);
 		this.setState({ data });
 	}
 
 	render() {
 
-		const { dateString, timeString, meridiem, data} = this.state;
+		const { date1, date2, data } = this.state;
 
 		let dataNodes;
 
@@ -101,59 +89,32 @@ class howLongAgo extends Component {
 				<div className="l-row">
 					<div className="l-col-xs-12-of-12">
 						<form onSubmit={this.handleFormSubmit}>
-							<div className="l-row">
-								<div className="l-col-xs-12-of-12 l-col-sm-6-of-12">
-									<label className={s.blockLabel} htmlFor="dateInput">Date (mm/dd/yyyy):</label>
-									<input 
-										type="text" 
-										id="dateInput" 
-										ref="dateInput"
-										placeholder="mm/dd/yyyy"
-										maxLength="10"
-										value={dateString}
-										onKeyUp={this.handleDateKeyUp}
-										onChange={this.handleDateChange}
-									/>
-								</div>
-								<div className="l-col-xs-12-of-12 l-col-sm-6-of-12">
-									<div className="l-col-xs-12-of-12">
-										<label className={s.blockLabel} htmlFor="dateInput">Time (hh:mm):</label>
-										<input 
-											type="text" 
-											id="timeInput" 
-											ref="timeInput"
-											placeholder="hh:mm"
-											maxLength="5"
-											value={timeString}
-											onKeyUp={this.handleTimeKeyUp}
-											onChange={this.handleTimeChange}
-										/>
-										<label htmlFor="am">
-											AM
-											<input
-												type="radio"
-												id="am"
-												name="meridiem"
-												value={AM}
-												onChange={this.handleMeridiemChange}
-												checked={meridiem === AM}
-											/>
-										</label>
-
-										<label htmlFor="pm">
-											PM
-											<input
-												type="radio"
-												id="pm"
-												name="meridiem"
-												value={PM}
-												onChange={this.handleMeridiemChange}
-												checked={meridiem === PM}
-											/>
-										</label>
-									</div>
-								</div>
-							</div>
+							<DateInput
+								dateLabelText="Date1" 
+								timeLabelText="Time1"
+								defaultDateString="01/01/1000"
+								defaultTimeString="12:00"
+								dateString={date1.dateString}
+								timeString={date1.timeString}
+								meridiem={date1.meridiem}
+								onDateChange={this.handleDateChange.bind(null, 'date1')}
+								onTimeChange={this.handleTimeChange.bind(null, 'date1')}
+								onMeridiemChange={this.handleMeridiemChange.bind(null, 'date1')}
+								onTodayClick={this.handleTodayClick.bind(null, 'date1')}
+							/>
+							<DateInput
+								dateLabelText="Date2" 
+								timeLabelText="Time2"
+								defaultDateString="01/01/1000"
+								defaultTimeString="12:00"
+								dateString={date2.dateString}
+								timeString={date2.timeString}
+								meridiem={date2.meridiem}
+								onDateChange={this.handleDateChange.bind(null, 'date2')}
+								onTimeChange={this.handleTimeChange.bind(null, 'date2')}
+								onMeridiemChange={this.handleMeridiemChange.bind(null, 'date2')}
+								onTodayClick={this.handleTodayClick.bind(null, 'date2')}
+							/>
 							<div className="l-row">
 								<div className="l-col-xs-12-of-12">
 									<button type="submit">Submit</button>
