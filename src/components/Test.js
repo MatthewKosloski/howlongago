@@ -1,40 +1,46 @@
 import React, { Component } from 'react';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
 import AccessibleModal from './AccessibleModal';
+import FirstChild from './FirstChild';
+import fadeIn from './fadeIn';
+import fadeInUp from './fadeInUp';
+import s from './AccessibleModal/style';
 
 class Test extends Component {
 	constructor() {
 		super();
 		this.state = {
-			isVisible: true
+			isModalVisible: false
 		};
 		this.handleToggle = this.handleToggle.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 	}
 
 	handleToggle() {
-		this.setState({ isVisible: !this.state.isVisible });
+		this.setState({ isModalVisible: !this.state.isModalVisible });
 	}
 
 	handleClose() {
-		this.setState({ isVisible: false });
+		this.setState({ isModalVisible: false });
 	}
 
 	render() {
+		const { isModalVisible } = this.state;
 		return(
 			<div>
-				{this.state.isVisible ?
-					<AccessibleModal 
-						isOpen={this.state.isVisible}
-						onClose={this.handleClose}
-						ariaLabel={"Label"}
-						ariaDescription={"Description"}
-						animationDuration={333}>
-						<h1>Modal Title</h1>
-						<p>Modal paragraph Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, quis!</p>
-						<input type="text"/>
-					</AccessibleModal> 
-				: null}
-				<button onClick={this.handleToggle}>Toggle modal</button>
+				<TransitionGroup component={FirstChild}>
+					{isModalVisible ?
+						<AccessibleModal
+							isOpen={isModalVisible}
+							onClose={this.handleClose}
+							ariaDescription="Description"
+							ariaLabel="Title">
+							<p>I am a child!</p>
+						</AccessibleModal>
+					: null}
+				</TransitionGroup>
+
+				<button onClick={this.handleToggle}>Toggle Modal</button>
 			</div>
 		);
 	}

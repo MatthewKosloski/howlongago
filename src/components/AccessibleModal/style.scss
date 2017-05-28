@@ -1,5 +1,4 @@
 .modal {
-    visibility: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9,13 +8,10 @@
     bottom: 0;
     left: 0;
     z-index: 9999;
-    &[aria-hidden="false"] {
-        visibility: visible;
-    }
 }
 
 .modalContent {
-    background-color: white;
+    background-color: #ccc;
     position: relative;
     width: 600px;
     height: 400px;

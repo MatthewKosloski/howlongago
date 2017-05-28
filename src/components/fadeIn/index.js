@@ -19,11 +19,7 @@ const fadeIn = (Component) => {
 		}
 
 		render() {
-			return(
-				<div ref={c => this.container = c}>
-					<Component {...this.props}/>
-				</div>
-			);
+			return <Component container={el => this.container = el} {...this.props}/>;
 		}
 	}
 
