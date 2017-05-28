@@ -1,0 +1,49 @@
+.modal {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    &[aria-hidden="false"] {
+        visibility: visible;
+    }
+}
+
+.modalContent {
+    background-color: white;
+    position: relative;
+    width: 600px;
+    height: 400px;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 10px;
+    padding: 0 10px;
+    overflow: auto;
+    z-index: 2;
+}
+
+.modalOverlay {
+    background-color: rgba(0, 0, 0, 0.70);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}

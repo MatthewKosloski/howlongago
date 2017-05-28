@@ -1,56 +1,43 @@
 import React, { Component } from 'react';
+import AccessibleModal from './AccessibleModal';
 
-class Parent extends Component {
-
+class Test extends Component {
 	constructor() {
 		super();
 		this.state = {
-			value: 'foo'
-		}
-		this.handleChange = this.handleChange.bind(this);
+			isVisible: true
+		};
+		this.handleToggle = this.handleToggle.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
-	handleChange(value) {
-		this.setState({ value });
+	handleToggle() {
+		this.setState({ isVisible: !this.state.isVisible });
 	}
 
-	render() {
-		return(
-			<Child value={this.state.value} onChange={this.handleChange}/>
-		)
-	}
-
-}
-
-class Child extends Component {
-
-	constructor() {
-		super();
-		this.handleButtonClick = this.handleButtonClick.bind(this);
-	}
-
-	setValue(value) {
-		this.props.onChange(value);
-	}
-
-	handleChange(e) {
-		const { value } = e.target;
-		this.setValue(value);
-	}
-
-	handleButtonClick() {
-		this.setValue('bar');
+	handleClose() {
+		this.setState({ isVisible: false });
 	}
 
 	render() {
 		return(
 			<div>
-				<button onClick={this.handleButtonClick}>"bar"</button>
-				<input type="text" value={this.props.value} onChange={this.handleChange}/>
+				{this.state.isVisible ?
+					<AccessibleModal 
+						isOpen={this.state.isVisible}
+						onClose={this.handleClose}
+						ariaLabel={"Label"}
+						ariaDescription={"Description"}
+						animationDuration={333}>
+						<h1>Modal Title</h1>
+						<p>Modal paragraph Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, quis!</p>
+						<input type="text"/>
+					</AccessibleModal> 
+				: null}
+				<button onClick={this.handleToggle}>Toggle modal</button>
 			</div>
-		)
+		);
 	}
-
 }
 
-export default Parent;
+export default Test;

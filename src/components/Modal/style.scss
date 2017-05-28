@@ -1,0 +1,34 @@
+.outer {
+	width: 100%;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+}
+
+.overlay {
+	background-color: rgba(0, 0, 0, 0.90);
+	position: absolute;
+	z-index: 10000;
+}
+
+.overlay,
+.content {
+	width: 100%;
+	height: 100%;
+}
+
+.content {
+	z-index: 10001;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 10px;
+}
+
+.inner {
+	background-color: #fff;
+	width: 600px;
+}
