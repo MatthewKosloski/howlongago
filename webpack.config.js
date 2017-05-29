@@ -15,8 +15,8 @@ const LOCAL_IDENT_NAME = IS_DEV ?
 : '[hash:base64:2]';
 
 const globals = [
-    resolve('./node_modules/normalize.css'), // any NPM module
-    resolve('./src/scss'), // global CSS classes
+    // resolve('./node_modules/normalize.css'), // any NPM module
+    // resolve('./src/scss'), // global CSS classes
 ];
 
 const cssModules = [
@@ -27,8 +27,8 @@ module.exports = {
     devtool: IS_DEV ? 'cheap-eval-source-map' : 'source-map',
     entry: {
         bundle: [
-            './node_modules/normalize.css',
-            './src/scss',
+            // './node_modules/normalize.css',
+            // './src/scss',
             './src/app'
         ]
     },

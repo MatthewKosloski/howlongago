@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import AccessibleModal from './AccessibleModal';
 import FirstChild from './FirstChild';
-import fadeIn from './fadeIn';
-import fadeInUp from './fadeInUp';
-import s from './AccessibleModal/style';
 
 class Test extends Component {
 	constructor() {
@@ -35,7 +32,8 @@ class Test extends Component {
 							onClose={this.handleClose}
 							ariaDescription="Description"
 							ariaLabel="Title">
-							<p>I am a child!</p>
+							<h1>Modal Title</h1>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum veniam explicabo itaque dolore, omnis dolor debitis similique culpa pariatur aliquam.</p>
 						</AccessibleModal>
 					: null}
 				</TransitionGroup>

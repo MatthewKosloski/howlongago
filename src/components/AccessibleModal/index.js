@@ -29,12 +29,12 @@ class AccessibleModal extends Component {
 
     componentWillEnter(callback) {
 		TweenMax.fromTo(this.container, this.props.duration, {opacity: 0}, {opacity: 1, onComplete: callback});
-		TweenMax.fromTo(this.dialog, this.props.duration, {y: 100, opacity: 0}, {y: 0, opacity: 1, onComplete: callback});
+		TweenMax.fromTo(this.dialog, this.props.duration + (this.props.duration * 0.5), {y: 100, opacity: 0}, {y: 0, opacity: 1, ease: Back.easeInOut.config(4), onComplete: callback});
 	}
 
 	componentWillLeave(callback) {
 		TweenMax.fromTo(this.container, this.props.duration, {opacity: 1}, {opacity: 0, onComplete: callback});
-		TweenMax.fromTo(this.dialog, this.props.duration, {y: 0, opacity: 1}, {y: -100, opacity: 0, onComplete: callback});
+		TweenMax.fromTo(this.dialog, this.props.duration + (this.props.duration * 0.5), {y: 0, opacity: 1}, {y: 100, opacity: 0, ease: Back.easeInOut.config(4), onComplete: callback});
 	}
 
 	render() {
