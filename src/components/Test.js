@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import TransitionGroup from 'react-transition-group/TransitionGroup';
-import AccessibleModal from './AccessibleModal';
+import TransitionGroup from 'react-transition-group/TransitionGroup'; 
 import FirstChild from './FirstChild';
+import Modal from './Modal';
 
-class Test extends Component {
+import { Motion, TransitionMotion, spring } from 'react-motion';
+
+class App extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -26,22 +28,29 @@ class Test extends Component {
 		return(
 			<div>
 				<TransitionGroup component={FirstChild}>
-					{isModalVisible ?
-						<AccessibleModal
-							isOpen={isModalVisible}
-							onClose={this.handleClose}
+					{isModalVisible ? 
+						<Modal
+							ariaLabel="Title"
 							ariaDescription="Description"
-							ariaLabel="Title">
-							<h1>Modal Title</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum veniam explicabo itaque dolore, omnis dolor debitis similique culpa pariatur aliquam.</p>
-						</AccessibleModal>
+							isOpen={isModalVisible}
+							shouldCloseOnOverlayClick={true}
+							shouldHideBodyOverflow={true}
+							onClose={this.handleClose}>
+							<h1>Dialog Title</h1>
+							<p>This is an accessible dialog window built in React.</p>
+							<form action="">
+								<label htmlFor="field1">Some Label</label>
+								<input type="text" id="field1" placeholder="Some field"/>
+								<button type="submit">Submit</button>
+							</form>
+						</Modal>
 					: null}
 				</TransitionGroup>
 
-				<button onClick={this.handleToggle}>Toggle Modal</button>
+				<button onClick={this.handleToggle}>Toggle Visibility</button>
 			</div>
 		);
 	}
 }
 
-export default Test;
+export default App;

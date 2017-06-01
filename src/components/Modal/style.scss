@@ -1,4 +1,4 @@
-.modal {
+.container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,7 +10,7 @@
     z-index: 9999;
 }
 
-.modalContent {
+.dialog {
     background-color: #ccc;
     position: relative;
     width: 600px;
@@ -23,7 +23,7 @@
     z-index: 2;
 }
 
-.modalOverlay {
+.overlay {
     background-color: rgba(0, 0, 0, 0.70);
     position: absolute;
     top: 0;
