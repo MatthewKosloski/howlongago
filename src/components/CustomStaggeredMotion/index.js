@@ -1,21 +1,52 @@
-import React, { Component, Children } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StaggeredMotion, spring } from 'react-motion';
 
-const propTypes = {
-	isVisible: PropTypes.bool.isRequired,
-	to: PropTypes.object.isRequired,
-	from: PropTypes.object.isRequired,
-	interpolatedStyles: PropTypes.func.isRequired,
-	defaultStyles: PropTypes.object.isRequired
+const defaultProps = {
+	component: 'div',
+	isVisible: true,
+	to: {
+		opacity: 1
+	},
+	from: {
+		opacity: 0
+	},
+	defaultStyles: {
+		opacity: 0
+	},
+	interpolatedStyles: ({opacity}) => ({opacity}),
 }
 
-const CustomStaggeredMotion = ({ children, isVisible, to, from, interpolatedStyles, defaultStyles }) => {
+const propTypes = {
+	component: PropTypes.oneOfType([
+		PropTypes.string, 
+		PropTypes.element
+	]),
+	className: PropTypes.string,
+	childClassName: PropTypes.string,
+	isVisible: PropTypes.bool,
+	to: PropTypes.object,
+	from: PropTypes.object,
+	interpolatedStyles: PropTypes.func,
+	defaultStyles: PropTypes.object
+}
+
+const CustomStaggeredMotion = ({ 
+	children,
+	component,
+	className,
+	childClassName,
+	isVisible,
+	to,
+	from,
+	interpolatedStyles,
+	defaultStyles 
+}) => {
 
 	const _isObject = (something) => typeof something === 'object';
 
 	// For each child, create an object and pass in props.defaultStyles
-	const _defaultStyles = Children.map(children, (child) => defaultStyles);
+	const _defaultStyles = React.Children.map(children, (child) => defaultStyles);
 
 	// returns an array containing destination styles defined in props.to
 	const _styles = (prevInterpolatedStyles) => {
@@ -28,19 +59,23 @@ const CustomStaggeredMotion = ({ children, isVisible, to, from, interpolatedStyl
 
 		Object.keys(to).map((key) => {
 			if(index === 0) {
+
 				if(isVisible) {
-					/*
-						if the current key in props.to is an object (e.g., spring(1, {stiffness: 150, damping: 15})),
-						use it, else simply spring the provided integer
-					*/
-					springedStyles[key] = _isObject(to[key]) 
-					? spring(to[key].val, {stiffness: to[key].stiffness, damping: to[key].damping})
-					: spring(to[key]);
+					if(_isObject(to[key])) { // if a spring config is provided, use it
+						const { val, stiffness, damping } = to[key];
+						springedStyles[key] = spring(val, {stiffness, damping});
+					} else {
+						springedStyles[key] = spring(to[key]);
+					}
 				} else {
-					springedStyles[key] = _isObject(from[key]) 
-					? spring(from[key].val, {stiffness: from[key].stiffness, damping: from[key].damping})
-					: spring(from[key]);
+					if(_isObject(from[key])) {
+						const { val, stiffness, damping } = from[key];
+						springedStyles[key] = spring(val, {stiffness, damping});
+					} else {
+						springedStyles[key] = spring(from[key]);
+					}
 				}
+
 			} else {
 				springedStyles[key] = spring(prevInterpolatedStyles[index - 1][key]);
 			}
@@ -54,18 +89,25 @@ const CustomStaggeredMotion = ({ children, isVisible, to, from, interpolatedStyl
 			defaultStyles={_defaultStyles}
 			styles={_styles}>
 			{interpolatingStyles =>
-			<div>
-				{interpolatingStyles.map((styles, i) =>
-					<div key={i} style={interpolatedStyles({...styles})}>
-						{children[i]}
-					</div>
-				)}
+			<div className={className || ''}>
+				{interpolatingStyles.map((styles, i) => {
+					return React.createElement(
+						component, 
+						{ 
+							key: i, 
+							style: interpolatedStyles({...styles}),
+							className: childClassName || '' 
+						}, 
+						children[i]
+					);
+				})}
 			</div>
 			}
 		</StaggeredMotion>
 	);
 }
 
+CustomStaggeredMotion.defaultProps = defaultProps;
 CustomStaggeredMotion.propTypes = propTypes;
 
 export default CustomStaggeredMotion;

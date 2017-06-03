@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import * as utils from './utilities';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import { spring } from 'react-motion';
+import CustomStaggeredMotion from '../CustomStaggeredMotion';
 import Modal from '../Modal';
 import DateInput from '../DateInput';
+import FirstChild from '../FirstChild';
+import * as utils from './utilities';
 import s from './style.scss';
 
 const AM = 'AM', PM = 'PM';
@@ -22,8 +26,8 @@ class howLongAgo extends Component {
 				timeString: utils.getCurrentTimeString(),
 				meridiem: utils.getCurrentTime().meridiem
 			},
-			isModalOpen: true,
-			data: null
+			isModalOpen: false,
+			data: null,
 		};
 
 		this.handleDateChange = this.handleDateChange.bind(this);
@@ -32,6 +36,13 @@ class howLongAgo extends Component {
 		this.handleTodayClick = this.handleTodayClick.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.handleModalClose = this.handleModalClose.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+		this.openModal = this.openModal.bind(this);
+		this._setData = this._setData.bind(this);
+	}
+
+	componentDidMount() {
+		this.openModal();
 	}
 
 	handleDateChange(key, dateString) {
@@ -60,13 +71,25 @@ class howLongAgo extends Component {
 
 	handleFormSubmit(e) {
 		e.preventDefault();
-		const { date1, date2 } = this.state;
-		const data = utils.getDifferenceOfDates(date1, date2);
-		this.setState({ data });
+		this._setData();
+		this.closeModal();
 	}
 
 	handleModalClose() {
+		this.closeModal();
+	}
+
+	openModal() {
+		this.setState({isModalOpen: true});
+	}
+
+	closeModal() {
 		this.setState({isModalOpen: false});
+	}
+
+	_setData() {
+		const { date1, date2 } = this.state;
+		this.setState({ data: utils.getDifferenceOfDates(date1, date2)});
 	}
 
 	render() {
@@ -76,63 +99,86 @@ class howLongAgo extends Component {
 		let dataNodes;
 
 		if(data) {
-			dataNodes = Object.keys(data).map((key) => {
-				return(
-					<div key={key} className="l-col-xs-4-of-12">
-						<h3>{key}</h3>
-						<p>{data[key].toLocaleString()}</p>
-					</div>
-				);
-			});
+			dataNodes = Object.keys(data).map((key) =>
+				<div key={key}>
+					<h3>{key}</h3>
+					<p>{data[key].toLocaleString()}</p>
+				</div>
+			);
 		}
 
 		return(
 			<div className="container">
-				<Modal isOpen={isModalOpen} onClose={this.handleModalClose}>
-					<form onSubmit={this.handleFormSubmit}>
-						<DateInput
-							dateLabelText="Date1" 
-							timeLabelText="Time1"
-							defaultDateString="01/01/1000"
-							defaultTimeString="12:00"
-							dateString={date1.dateString}
-							timeString={date1.timeString}
-							meridiem={date1.meridiem}
-							onDateChange={this.handleDateChange.bind(null, 'date1')}
-							onTimeChange={this.handleTimeChange.bind(null, 'date1')}
-							onMeridiemChange={this.handleMeridiemChange.bind(null, 'date1')}
-							onTodayClick={this.handleTodayClick.bind(null, 'date1')}
-						/>
-						<DateInput
-							dateLabelText="Date2" 
-							timeLabelText="Time2"
-							defaultDateString="01/01/1000"
-							defaultTimeString="12:00"
-							dateString={date2.dateString}
-							timeString={date2.timeString}
-							meridiem={date2.meridiem}
-							onDateChange={this.handleDateChange.bind(null, 'date2')}
-							onTimeChange={this.handleTimeChange.bind(null, 'date2')}
-							onMeridiemChange={this.handleMeridiemChange.bind(null, 'date2')}
-							onTodayClick={this.handleTodayClick.bind(null, 'date2')}
-						/>
-						<div className="l-row">
-							<div className="l-col-xs-12-of-12">
-								<button type="submit">Submit</button>
-							</div>
-						</div>
-					</form>
-				</Modal>
-				<div className="l-row">
-					<div className="l-col-xs-12-of-12">
-						<h1>How long since...</h1>
+				<TransitionGroup component={FirstChild}>
+					{isModalOpen ?
+						<Modal
+							ariaLabel="Modal title goes here"
+							ariaDescription="Modal description goes here"
+							isOpen={isModalOpen}
+							onClose={this.handleModalClose}>
+							<form onSubmit={this.handleFormSubmit}>
+								<DateInput
+									dateLabelText="Date1" 
+									timeLabelText="Time1"
+									defaultDateString="01/01/1000"
+									defaultTimeString="12:00"
+									dateString={date1.dateString}
+									timeString={date1.timeString}
+									meridiem={date1.meridiem}
+									onDateChange={this.handleDateChange.bind(null, 'date1')}
+									onTimeChange={this.handleTimeChange.bind(null, 'date1')}
+									onMeridiemChange={this.handleMeridiemChange.bind(null, 'date1')}
+									onTodayClick={this.handleTodayClick.bind(null, 'date1')}
+								/>
+								<DateInput
+									dateLabelText="Date2" 
+									timeLabelText="Time2"
+									defaultDateString="01/01/1000"
+									defaultTimeString="12:00"
+									dateString={date2.dateString}
+									timeString={date2.timeString}
+									meridiem={date2.meridiem}
+									onDateChange={this.handleDateChange.bind(null, 'date2')}
+									onTimeChange={this.handleTimeChange.bind(null, 'date2')}
+									onMeridiemChange={this.handleMeridiemChange.bind(null, 'date2')}
+									onTodayClick={this.handleTodayClick.bind(null, 'date2')}
+								/>
+								<div className="l-row">
+									<div className="l-col-xs-12-of-12">
+										<button type="submit">Submit</button>
+									</div>
+								</div>
+							</form>
+						</Modal>
+					: null}
+				</TransitionGroup>
+				{data ? 
+					<div>
+						<CustomStaggeredMotion
+							isVisible={data && !isModalOpen}
+							className="l-row"
+							childClassName="l-col-xs-4-of-12"
+							defaultStyles={{
+								opacity: 0,
+								y: 20
+							}}
+							from={{
+								opacity: 0,
+								y: spring(20, {stiffness: 186, damping: 30})
+							}}
+							to={{
+								opacity: 1,
+								y: spring(0, {stiffness: 186, damping: 30})
+							}}
+							interpolatedStyles={({opacity, y}) => ({
+								opacity: opacity,
+								transform: `translate3d(0, ${y}px, 0)`
+							})}>
+							{dataNodes}
+						</CustomStaggeredMotion>
+						<button onClick={this.openModal}>Again</button>
 					</div>
-				</div>
-				{data && 
-					<div className="l-row">
-						{dataNodes}
-					</div>
-				}
+				: null}
 			</div>
 		);
 	}

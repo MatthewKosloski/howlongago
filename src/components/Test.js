@@ -10,7 +10,7 @@ class App extends Component {
 		super();
 		this.state = {
 			isVisible: false,
-			phrases: ['Hello', 'world', '!']
+			phrases: ['hello']
 		};
 		this.handleToggle = this.handleToggle.bind(this);
 		this.handleClose = this.handleClose.bind(this);
@@ -52,6 +52,9 @@ class App extends Component {
 					{child}
 				</CustomStaggeredMotion>
 				<button onClick={this.handleToggle}>Toggle Visibility</button>
+				<buton onClick={() => {
+					this.setState({phrases: ['worlddDDD!']})
+				}}>Edit</buton>
 			</div>
 		);
 	}

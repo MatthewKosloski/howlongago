@@ -26,7 +26,7 @@ const propTypes = {
 const defaultProps = {
 	duration: 0.3,
 	shouldCloseOnOverlayClick: true,
-	shouldHideBodyOverflow: false,
+	shouldHideBodyOverflow: true,
 	animation: {
 		componentWillEnter: {
 			fromVars: {
@@ -73,7 +73,7 @@ class Modal extends Component {
 			document.body.style.overflow = 'visible';
 		}
 		document.removeEventListener('mousedown', this.handleClickOutside);
-		document.addEventListener('keydown', this.handleKeyDown);
+		document.removeEventListener('keydown', this.handleKeyDown);
     }
 
     handleClickOutside(e) {
@@ -118,12 +118,8 @@ class Modal extends Component {
 	            	role="dialog" 
 	            	aria-labelledby="modal-title" 
 	            	aria-describedby="modal-description">
-	                <h1 tabIndex="-1" id="modal-title" className={s.srOnly}>
-	                	{ariaLabel}
-	                </h1>
-	                <p tabIndex="-1" id="modal-description" className={s.srOnly}>
-	                	{ariaDescription}
-	                </p>
+	                <h1 tabIndex="-1" id="modal-title" className={s.srOnly}>{ariaLabel}</h1>
+	                <p tabIndex="-1" id="modal-description" className={s.srOnly}>{ariaDescription}</p>
 	                {children}
 	            </div>
 	            <div 

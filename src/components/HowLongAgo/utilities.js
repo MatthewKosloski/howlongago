@@ -300,8 +300,9 @@ export const getTimeDifference = (higherDate, lowerDate) => {
 		decades = _adjust(years / 10),
 		centuries = _adjust(decades / 10);
 
+	// removed milliseconds because it is almost the same as seconds
 	return {
-		milliseconds,
+		// milliseconds,
 		seconds,
 		minutes,
 		hours,
