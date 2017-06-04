@@ -7,7 +7,7 @@ const defaultProps = {
 	stagger: 0.1,
 	fromVars: {
 		ease: Elastic.easeInOut,
-		opacity: 0
+		opacity: 0,
 		y: 0
 	},
 	toVars: {

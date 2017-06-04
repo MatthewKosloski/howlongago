@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
-import { spring } from 'react-motion';
-import CustomStaggeredMotion from '../CustomStaggeredMotion';
+import FirstChild from '../FirstChild';
 import Modal from '../Modal';
 import DateInput from '../DateInput';
-import FirstChild from '../FirstChild';
+import Stagger from '../Stagger';
 import * as utils from './utilities';
 import s from './style.scss';
 
@@ -100,7 +99,7 @@ class howLongAgo extends Component {
 
 		if(data) {
 			dataNodes = Object.keys(data).map((key) =>
-				<div key={key}>
+				<div key={key} className="l-col-xs-4-of-12">
 					<h3>{key}</h3>
 					<p>{data[key].toLocaleString()}</p>
 				</div>
@@ -152,33 +151,14 @@ class howLongAgo extends Component {
 						</Modal>
 					: null}
 				</TransitionGroup>
-				{data ? 
-					<div>
-						<CustomStaggeredMotion
-							isVisible={data && !isModalOpen}
-							className="l-row"
-							childClassName="l-col-xs-4-of-12"
-							defaultStyles={{
-								opacity: 0,
-								y: 20
-							}}
-							from={{
-								opacity: 0,
-								y: spring(20, {stiffness: 500, damping: 25})
-							}}
-							to={{
-								opacity: 1,
-								y: spring(0, {stiffness: 500, damping: 25})
-							}}
-							interpolatedStyles={({opacity, y}) => ({
-								opacity: opacity,
-								transform: `translate3d(0, ${y}px, 0)`
-							})}>
+				<TransitionGroup component={FirstChild}>
+					{(data && !isModalOpen) ?
+						<Stagger className="l-row">
 							{dataNodes}
-						</CustomStaggeredMotion>
-						<button onClick={this.openModal}>Again</button>
-					</div>
-				: null}
+						</Stagger>
+					: null}
+				</TransitionGroup>
+				<button onClick={this.openModal}>Again</button>
 			</div>
 		);
 	}
