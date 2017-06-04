@@ -1,60 +1,64 @@
 import React, { Component } from 'react';
-import { spring } from 'react-motion';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
 import FirstChild from './FirstChild';
-import CustomStaggeredMotion from './CustomStaggeredMotion';
-import Modal from './Modal';
-
+import Stagger from './Stagger';
 
 class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			isVisible: false,
-			phrases: ['hello']
+			isVisible: false
 		};
 		this.handleToggle = this.handleToggle.bind(this);
-		this.handleClose = this.handleClose.bind(this);
+	}
+
+	componentDidMount() {
+		this.setState({isVisible: true});
 	}
 
 	handleToggle() {
 		this.setState({ isVisible: !this.state.isVisible });
 	}
 
-	handleClose() {
-		this.setState({ isVisible: false });
-	}
-
 	render() {
-		const { isVisible, phrases } = this.state;
-		const child = phrases.map((phrase, i) =>
-			<p key={i}>{phrase}</p>
-		);
+		const { isVisible } = this.state;
 		return(
 			<div>
-				<CustomStaggeredMotion 
-					isVisible={isVisible}
-					defaultStyles={{
-						opacity: 0,
-						y: 20
-					}}
-					from={{
-						opacity: 0,
-						y: spring(20, {stiffness: 270, damping: 5})
-					}}
-					to={{
-						opacity: 1,
-						y: spring(0, {stiffness: 270, damping: 5})
-					}}
-					interpolatedStyles={({opacity, y}) => ({
-						opacity: opacity,
-						transform: `translate3d(0, ${y}px, 0)`
-					})}>
-					{child}
-				</CustomStaggeredMotion>
-				<button onClick={this.handleToggle}>Toggle Visibility</button>
-				<buton onClick={() => {
-					this.setState({phrases: ['worlddDDD!']})
-				}}>Edit</buton>
+				<TransitionGroup component={FirstChild}>
+					{isVisible ?
+						<Stagger
+							fromVars={{
+								ease: Elastic.easeInOut,
+								opacity: 0,
+								y: 0
+							}}
+							toVars={{
+								ease: Elastic.easeInOut,
+								opacity: 1,
+								y: 100
+							}}
+							duration={1}>
+							<div>
+								<p>Lorem</p>
+							</div>
+							<div>
+								<p>ipsum</p>
+							</div>
+							<div>
+								<p>dolor</p>
+							</div>
+							<div>
+								<p>sit</p>
+							</div>
+							<div>
+								<p>amet</p>
+							</div>
+						</Stagger>
+					: null}
+				</TransitionGroup>
+				<button onClick={() => {
+					this.setState({isVisible: !isVisible})
+				}}>Toggle</button>
 			</div>
 		);
 	}

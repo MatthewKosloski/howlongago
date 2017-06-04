@@ -164,11 +164,11 @@ class howLongAgo extends Component {
 							}}
 							from={{
 								opacity: 0,
-								y: spring(20, {stiffness: 186, damping: 30})
+								y: spring(20, {stiffness: 500, damping: 25})
 							}}
 							to={{
 								opacity: 1,
-								y: spring(0, {stiffness: 186, damping: 30})
+								y: spring(0, {stiffness: 500, damping: 25})
 							}}
 							interpolatedStyles={({opacity, y}) => ({
 								opacity: opacity,
