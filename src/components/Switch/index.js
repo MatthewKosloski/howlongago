@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react';
+
 import s from './style.scss';
 
 class Switch extends Component {

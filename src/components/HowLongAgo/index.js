@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
+
 import FirstChild from '../FirstChild';
 import Modal from '../Modal';
-import DateInput from '../DateInput';
+import Form from '../Form';
 import Stagger from '../Stagger';
 import * as utils from './utilities';
 import s from './style.scss';
 
 const AM = 'AM', PM = 'PM';
 
-class howLongAgo extends Component {
+class HowLongAgo extends Component {
 
 	constructor() {
 		super();
@@ -45,27 +46,41 @@ class howLongAgo extends Component {
 	}
 
 	handleDateChange(key, dateString) {
-		let state = {};
-		state[key] = { ...this.state[key], dateString };
-		this.setState(state);
+		this.setState({
+			[key]: {
+				...this.state[key],
+				dateString
+			}
+		});
 	}
 
 	handleTimeChange(key, timeString) {
-		let state = {};
-		state[key] = { ...this.state[key], timeString };
-		this.setState(state);
+		this.setState({
+			[key]: {
+				...this.state[key],
+				timeString
+			}
+		});
 	}
 
 	handleMeridiemChange(key, meridiem) {
-		let state = {};
-		state[key] = { ...this.state[key], meridiem };
-		this.setState(state);
+		this.setState({
+			[key]: {
+				...this.state[key],
+				meridiem
+			}
+		});
 	}
 
 	handleTodayClick(key, dateString, timeString, meridiem) {
-		let state = {};
-		state[key] = { ...this.state[key], dateString, timeString, meridiem };
-		this.setState(state);
+		this.setState({
+			[key]: {
+				...this.state[key],
+				dateString,
+				timeString,
+				meridiem
+			}
+		});
 	}
 
 	handleFormSubmit(e) {
@@ -95,17 +110,6 @@ class howLongAgo extends Component {
 
 		const { date1, date2, isModalOpen, data } = this.state;
 
-		let dataNodes;
-
-		if(data) {
-			dataNodes = Object.keys(data).map((key) =>
-				<div key={key} className="l-col-xs-4-of-12">
-					<h3>{key}</h3>
-					<p>{data[key].toLocaleString()}</p>
-				</div>
-			);
-		}
-
 		return(
 			<div className="container">
 				<TransitionGroup component={FirstChild}>
@@ -115,46 +119,26 @@ class howLongAgo extends Component {
 							ariaDescription="Modal description goes here"
 							isOpen={isModalOpen}
 							onClose={this.handleModalClose}>
-							<form onSubmit={this.handleFormSubmit}>
-								<DateInput
-									dateLabelText="Date1" 
-									timeLabelText="Time1"
-									defaultDateString="01/01/1000"
-									defaultTimeString="12:00"
-									dateString={date1.dateString}
-									timeString={date1.timeString}
-									meridiem={date1.meridiem}
-									onDateChange={this.handleDateChange.bind(null, 'date1')}
-									onTimeChange={this.handleTimeChange.bind(null, 'date1')}
-									onMeridiemChange={this.handleMeridiemChange.bind(null, 'date1')}
-									onTodayClick={this.handleTodayClick.bind(null, 'date1')}
-								/>
-								<DateInput
-									dateLabelText="Date2" 
-									timeLabelText="Time2"
-									defaultDateString="01/01/1000"
-									defaultTimeString="12:00"
-									dateString={date2.dateString}
-									timeString={date2.timeString}
-									meridiem={date2.meridiem}
-									onDateChange={this.handleDateChange.bind(null, 'date2')}
-									onTimeChange={this.handleTimeChange.bind(null, 'date2')}
-									onMeridiemChange={this.handleMeridiemChange.bind(null, 'date2')}
-									onTodayClick={this.handleTodayClick.bind(null, 'date2')}
-								/>
-								<div className="l-row">
-									<div className="l-col-xs-12-of-12">
-										<button type="submit">Submit</button>
-									</div>
-								</div>
-							</form>
+							<Form
+								onSubmit={this.handleFormSubmit}
+								onDateChange={this.handleDateChange}
+								onTimeChange={this.handleTimeChange}
+								onMeridiemChange={this.handleMeridiemChange}
+								onTodayClick={this.handleTodayClick}
+								dates={[date1, date2]}
+							/>
 						</Modal>
 					: null}
 				</TransitionGroup>
 				<TransitionGroup component={FirstChild}>
 					{(data && !isModalOpen) ?
 						<Stagger className="l-row">
-							{dataNodes}
+							{Object.keys(data).map((key) =>
+								<div key={key} className="l-col-xs-4-of-12">
+									<h3>{key}</h3>
+									<p>{data[key].toLocaleString()}</p>
+								</div>
+							)}
 						</Stagger>
 					: null}
 				</TransitionGroup>
@@ -164,4 +148,4 @@ class howLongAgo extends Component {
 	}
 }
 
-export default howLongAgo;
+export default HowLongAgo;

@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import * as utils from '../HowLongAgo/utilities';
 
 const AM = 'AM', PM = 'PM';
 
 const propTypes = {
 	defaultDateString: PropTypes.string.isRequired,
-	dateString: PropTypes.string.isRequired,
 	defaultTimeString: PropTypes.string.isRequired,
-	timeString: PropTypes.string.isRequired,
-	meridiem: PropTypes.string.isRequired,
 	onDateChange: PropTypes.func.isRequired,
 	onTimeChange: PropTypes.func.isRequired,
 	onMeridiemChange: PropTypes.func.isRequired,
-	dateLabelText: PropTypes.string,
-	timeLabelText: PropTypes.string,
 	dateInputPlaceholder: PropTypes.string,
-	timeInputPlaceholder: PropTypes.string
+	timeInputPlaceholder: PropTypes.string,
+	date: PropTypes.shape({
+		dateString: PropTypes.string,
+		timeString: PropTypes.string,
+		meridiem: PropTypes.string
+	})
 };
 
 const defaultProps = {
+	defaultDateString: '01/01/1000',
+	defaultTimeString: '12:00',
 	dateInputPlaceholder: 'mm/dd/yyyy',
 	timeInputPlaceholder: 'hh:mm'
 }
@@ -112,16 +115,8 @@ class DateInput extends Component {
 	}
 
 	render() {
-		const { 
-			dateLabelText, 
-			dateInputPlaceholder, 
-			timeLabelText,
-			timeInputPlaceholder,
-			dateString, 
-			timeString, 
-			meridiem 
-		} = this.props;
-
+		const { date, dateInputPlaceholder, timeInputPlaceholder } = this.props;
+		const { dateString, timeString, meridiem } = date;
 		const { id } = this.state;
 
 		return(
@@ -130,7 +125,7 @@ class DateInput extends Component {
 					<button type="button" onClick={this.handleTodayClick}>Today</button>
 				</div>
 				<div className="l-col-xs-12-of-12 l-col-sm-5-of-12">
-					<label htmlFor={`date-${id}`}>{dateLabelText}</label>
+					<label htmlFor={`date-${id}`}>Date</label>
 					<input 
 						type="text" 
 						maxLength="10"
@@ -144,7 +139,7 @@ class DateInput extends Component {
 				</div>
 				<div className="l-col-xs-12-of-12 l-col-sm-5-of-12">
 					<div className="l-col-xs-12-of-12">
-						<label htmlFor={`time-${id}`}>{timeLabelText}</label>
+						<label htmlFor={`time-${id}`}>Time</label>
 						<input 
 							type="text" 
 							id={`time-${id}`} 

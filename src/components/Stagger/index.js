@@ -31,8 +31,10 @@ class Stagger extends Component {
 		super(props);
 		this.childNodes = [];
 		this.children = React.Children.map(props.children, (child, i) => {
+			console.log(child);
 			return React.cloneElement(child, {ref: el => this.childNodes[i] = el});
 		});	
+		console.log(this.childNodes);
 	}
 
 	componentWillEnter(callback) {
