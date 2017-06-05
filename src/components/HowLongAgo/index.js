@@ -8,8 +8,6 @@ import Stagger from '../Stagger';
 import * as utils from './utilities';
 import s from './style.scss';
 
-const AM = 'AM', PM = 'PM';
-
 class HowLongAgo extends Component {
 
 	constructor() {

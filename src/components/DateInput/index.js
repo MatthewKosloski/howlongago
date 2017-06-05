@@ -1,40 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import * as utils from '../HowLongAgo/utilities';
-
-const AM = 'AM', PM = 'PM';
-
-const DATE_REGEX = /^(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/([1-9]\d{3})$/,
-	TIME_REGEX = /^(0[1-9]|[1][012])\:([0-5][0-9])$/,
-	MERIDIEM_REGEX = /^(AM|PM)$/;
-
-const _dateStringPropType = (props, propName, componentName) => {
-	if(!DATE_REGEX.test(props[propName])) {
-		return new Error(
-			`Invalid prop ${propName} supplied to ${componentName}.  
-			${propName} must be a String in the form of mm/dd/yyyy.`
-		);
-	}
-}
-
-const _timeStringPropType = (props, propName, componentName) => {
-	if(!TIME_REGEX.test(props[propName])) {
-		return new Error(
-			`Invalid prop ${propName} supplied to ${componentName}.  
-			${propName} must be a String in the form of hh:mm.`
-		);
-	}
-}
-
-const _meridiemPropType = (props, propName, componentName) => {
-	if(!MERIDIEM_REGEX.test(props[propName])) {
-		return new Error(
-			`Invalid prop ${propName} supplied to ${componentName}.  
-			${propName} must be either AM or PM.`
-		);
-	}
-}
+import { getCurrentDateString, getCurrentTimeString, getCurrentTime } from '../HowLongAgo/utilities';
+import * as constants from './constants';
+import * as utils from './utilities';
 
 const defaultProps = {
 	defaultDateString: '01/01/1000',
@@ -46,12 +15,12 @@ const defaultProps = {
 const propTypes = {
 	onDateChange: PropTypes.func.isRequired,
 	date: PropTypes.shape({
-		dateString: _dateStringPropType,
-		timeString: _timeStringPropType,
-		meridiem: _meridiemPropType
+		dateString: utils.dateStringPropType,
+		timeString: utils.timeStringPropType,
+		meridiem: utils.meridiemPropType
 	}).isRequired,
-	defaultDateString: _dateStringPropType,
-	defaultTimeString: _timeStringPropType,
+	defaultDateString: utils.dateStringPropType,
+	defaultTimeString: utils.timeStringPropType,
 	dateInputPlaceholder: PropTypes.string,
 	timeInputPlaceholder: PropTypes.string
 };
@@ -94,9 +63,9 @@ class DateInput extends Component {
 	}
 
 	handleTodayClick() {
-		const dateString = utils.getCurrentDateString();
-		const timeString = utils.getCurrentTimeString();
-		const meridiem = utils.getCurrentTime().meridiem;
+		const dateString = getCurrentDateString();
+		const timeString = getCurrentTimeString();
+		const meridiem = getCurrentTime().meridiem;
 
 		this.props.onDateChange({ dateString, timeString, meridiem });
 	}
@@ -110,7 +79,7 @@ class DateInput extends Component {
 	}
 
 	handleDateBlur(e) {
-		if(!DATE_REGEX.test(e.target.value)) {
+		if(!constants.DATE_REGEX.test(e.target.value)) {
 			const dateString = this.props.defaultDateString;
 			this.setDateString(dateString);
 		}
@@ -125,7 +94,7 @@ class DateInput extends Component {
 	}
 
 	handleTimeBlur(e) {
-		if(!TIME_REGEX.test(e.target.value)) {
+		if(!constants.TIME_REGEX.test(e.target.value)) {
 			const timeString = this.props.defaultTimeString;
 			this.setTimeString(timeString);
 		}
@@ -194,9 +163,9 @@ class DateInput extends Component {
 								type="radio"
 								id={`am-${id}`}
 								name={`meridiem-${id}`}
-								value={AM}
+								value={constants.AM}
 								onChange={this.handleMeridiemChange}
-								checked={meridiem === AM}
+								checked={meridiem === constants.AM}
 							/>
 						</label>
 
@@ -206,9 +175,9 @@ class DateInput extends Component {
 								type="radio"
 								id={`pm-${id}`}
 								name={`meridiem-${id}`}
-								value={PM}
+								value={constants.PM}
 								onChange={this.handleMeridiemChange}
-								checked={meridiem === PM}
+								checked={meridiem === constants.PM}
 							/>
 						</label>
 					</div>
