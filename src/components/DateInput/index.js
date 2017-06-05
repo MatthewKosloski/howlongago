@@ -1,29 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { getCurrentDateString, getCurrentTimeString, getCurrentTime } from '../HowLongAgo/utilities';
 import * as constants from './constants';
 import * as utils from './utilities';
-
-const defaultProps = {
-	defaultDateString: '01/01/1000',
-	defaultTimeString: '12:00',
-	dateInputPlaceholder: 'mm/dd/yyyy',
-	timeInputPlaceholder: 'hh:mm'
-};
-
-const propTypes = {
-	onDateChange: PropTypes.func.isRequired,
-	date: PropTypes.shape({
-		dateString: utils.dateStringPropType,
-		timeString: utils.timeStringPropType,
-		meridiem: utils.meridiemPropType
-	}).isRequired,
-	defaultDateString: utils.dateStringPropType,
-	defaultTimeString: utils.timeStringPropType,
-	dateInputPlaceholder: PropTypes.string,
-	timeInputPlaceholder: PropTypes.string
-};
+import defaultProps from './defaultProps';
+import propTypes from './propTypes';
 
 class DateInput extends Component {
 

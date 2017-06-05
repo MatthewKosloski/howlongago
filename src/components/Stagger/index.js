@@ -1,29 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { TweenMax } from 'gsap';
 
-const defaultProps = {
-	duration: 1,
-	stagger: 0.1,
-	fromVars: {
-		ease: Elastic.easeInOut,
-		opacity: 0,
-		y: 0
-	},
-	toVars: {
-		ease: Elastic.easeInOut,
-		opacity: 1,
-		y: 20
-	}
-};
-
-const propTypes = {
-	duration: PropTypes.number,
-	stagger: PropTypes.number,
-	fromVars: PropTypes.object,
-	toVars: PropTypes.object,
-	className: PropTypes.string
-};
+import defaultProps from './defaultProps';
+import propTypes from './propTypes';
 
 class Stagger extends Component {
 

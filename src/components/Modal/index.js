@@ -1,58 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { TweenMax } from 'gsap';
 
+import defaultProps from './defaultProps';
+import propTypes from './propTypes';
 import s from './style';
-
-const propTypes = {
-	ariaLabel: PropTypes.string.isRequired,
-	ariaDescription: PropTypes.string.isRequired,
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
-	shouldCloseOnOverlayClick: PropTypes.bool,
-	shouldHideBodyOverflow: PropTypes.bool,
-	duration: PropTypes.number,
-	animation: PropTypes.shape({
-		componentWillEnter: PropTypes.shape({
-			fromVars: PropTypes.object,
-			toVars: PropTypes.object
-		}).isRequired,
-		componentWillLeave: PropTypes.shape({
-			fromVars: PropTypes.object,
-			toVars: PropTypes.object
-		}).isRequired
-	})
-}
-
-const defaultProps = {
-	duration: 0.3,
-	shouldCloseOnOverlayClick: true,
-	shouldHideBodyOverflow: true,
-	animation: {
-		componentWillEnter: {
-			fromVars: {
-				y: 100,
-				opacity: 0
-			},
-			toVars: {
-				y: 0,
-				opacity: 1,
-				ease: Back.easeInOut.config(4)
-			}
-		},
-		componentWillLeave: {
-			fromVars: {
-				y: 0,
-				opacity: 1
-			},
-			toVars: {
-				y: 100,
-				opacity: 0,
-				ease: Back.easeInOut.config(4)
-			}
-		}
-	}
-};
 
 class Modal extends Component {
 

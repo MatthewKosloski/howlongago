@@ -1,13 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
+import propTypes from './propTypes';
 import DateInput from '../DateInput';
-
-const propTypes = {
-	onSubmit: PropTypes.func.isRequired,
-	onDateChange: PropTypes.func.isRequired,
-	dates: PropTypes.arrayOf(PropTypes.object)
-};
 
 const Form = (props) => {
 	return(
