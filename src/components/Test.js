@@ -7,58 +7,45 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			isVisible: false
+			dates: [
+				{
+					dateString: '10/17/1997',
+					timeString: '02:50',
+					meridiem: 'AM'
+				},
+				{
+					dateString: '06/04/2017',
+					timeString: '08:46',
+					meridiem: 'PM'
+				}
+			],
 		};
-		this.handleToggle = this.handleToggle.bind(this);
+		this.handleDateChange = this.handleDateChange.bind(this);
 	}
 
 	componentDidMount() {
-		this.setState({isVisible: true});
+		this.handleDateChange(0, {
+			dateString: '06/05/2017',
+			timeString: '08:46',
+			meridiem: 'PM'
+		});
 	}
 
-	handleToggle() {
-		this.setState({ isVisible: !this.state.isVisible });
+	handleDateChange(index, date) {
+		const { dates } = this.state;
+		this.setState({
+			dates: [
+				...dates.slice(0, index),
+				date,
+				...dates.slice(index + 1)
+			]
+		});
 	}
 
 	render() {
-		const { isVisible } = this.state;
 		return(
 			<div>
-				<TransitionGroup component={FirstChild}>
-					{isVisible ?
-						<Stagger
-							fromVars={{
-								ease: Elastic.easeInOut,
-								opacity: 0,
-								y: 0
-							}}
-							toVars={{
-								ease: Elastic.easeInOut,
-								opacity: 1,
-								y: 100
-							}}
-							duration={1}>
-							<div>
-								<p>Lorem</p>
-							</div>
-							<div>
-								<p>ipsum</p>
-							</div>
-							<div>
-								<p>dolor</p>
-							</div>
-							<div>
-								<p>sit</p>
-							</div>
-							<div>
-								<p>amet</p>
-							</div>
-						</Stagger>
-					: null}
-				</TransitionGroup>
-				<button onClick={() => {
-					this.setState({isVisible: !isVisible})
-				}}>Toggle</button>
+				lol
 			</div>
 		);
 	}

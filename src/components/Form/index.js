@@ -1,6 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import DateInput from '../DateInput';
+
+const propTypes = {
+	onSubmit: PropTypes.func.isRequired,
+	onDateChange: PropTypes.func.isRequired,
+	dates: PropTypes.arrayOf(PropTypes.object)
+};
 
 const Form = (props) => {
 	return(
@@ -9,10 +16,7 @@ const Form = (props) => {
 				<DateInput
 					key={i}
 					date={date}
-					onDateChange={props.onDateChange.bind(null, `date${i+1}`)}
-					onTimeChange={props.onTimeChange.bind(null, `date${i+1}`)}
-					onMeridiemChange={props.onMeridiemChange.bind(null, `date${i+1}`)}
-					onTodayClick={props.onTodayClick.bind(null, `date${i+1}`)}
+					onDateChange={props.onDateChange.bind(null, i)}
 				/>
 			)}
 			<div className="l-row">
@@ -23,5 +27,7 @@ const Form = (props) => {
 		</form>
 	);
 }
+
+Form.propTypes = propTypes;
 
 export default Form;

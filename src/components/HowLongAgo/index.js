@@ -16,24 +16,23 @@ class HowLongAgo extends Component {
 		super();
 
 		this.state = {
-			date1: {
-				dateString: '10/17/1997',
-				timeString: '02:50',
-				meridiem: 'AM'
-			},
-			date2: {
-				dateString: utils.getCurrentDateString(),
-				timeString: utils.getCurrentTimeString(),
-				meridiem: utils.getCurrentTime().meridiem
-			},
+			dates: [
+				{
+					dateString: '10/17/1997',
+					timeString: '02:50',
+					meridiem: 'AM'
+				},
+				{
+					dateString: utils.getCurrentDateString(),
+					timeString: utils.getCurrentTimeString(),
+					meridiem: utils.getCurrentTime().meridiem
+				}
+			],
 			isModalOpen: false,
 			data: null,
 		};
 
 		this.handleDateChange = this.handleDateChange.bind(this);
-		this.handleTimeChange = this.handleTimeChange.bind(this);
-		this.handleMeridiemChange = this.handleMeridiemChange.bind(this);
-		this.handleTodayClick = this.handleTodayClick.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.handleModalClose = this.handleModalClose.bind(this);
 		this.closeModal = this.closeModal.bind(this);
@@ -45,41 +44,15 @@ class HowLongAgo extends Component {
 		this.openModal();
 	}
 
-	handleDateChange(key, dateString) {
+	handleDateChange(index, date) {
+		console.log(index, date);
+		const { dates } = this.state;
 		this.setState({
-			[key]: {
-				...this.state[key],
-				dateString
-			}
-		});
-	}
-
-	handleTimeChange(key, timeString) {
-		this.setState({
-			[key]: {
-				...this.state[key],
-				timeString
-			}
-		});
-	}
-
-	handleMeridiemChange(key, meridiem) {
-		this.setState({
-			[key]: {
-				...this.state[key],
-				meridiem
-			}
-		});
-	}
-
-	handleTodayClick(key, dateString, timeString, meridiem) {
-		this.setState({
-			[key]: {
-				...this.state[key],
-				dateString,
-				timeString,
-				meridiem
-			}
+			dates: [
+				...dates.slice(0, index),
+				date,
+				...dates.slice(index + 1)
+			]
 		});
 	}
 
@@ -102,13 +75,13 @@ class HowLongAgo extends Component {
 	}
 
 	_setData() {
-		const { date1, date2 } = this.state;
+		const [ date1, date2 ] = this.state.dates;
 		this.setState({ data: utils.getDifferenceOfDates(date1, date2)});
 	}
 
 	render() {
 
-		const { date1, date2, isModalOpen, data } = this.state;
+		const { dates, isModalOpen, data } = this.state;
 
 		return(
 			<div className="container">
@@ -122,10 +95,7 @@ class HowLongAgo extends Component {
 							<Form
 								onSubmit={this.handleFormSubmit}
 								onDateChange={this.handleDateChange}
-								onTimeChange={this.handleTimeChange}
-								onMeridiemChange={this.handleMeridiemChange}
-								onTodayClick={this.handleTodayClick}
-								dates={[date1, date2]}
+								dates={dates}
 							/>
 						</Modal>
 					: null}
