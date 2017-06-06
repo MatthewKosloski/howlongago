@@ -1,5 +1,7 @@
-import React, {PropTypes, Component} from 'react';
+import React, { Component } from 'react';
 
+import defaultProps from './defaultProps';
+import propTypes from './propTypes';
 import s from './style.scss';
 
 class Switch extends Component {
@@ -7,7 +9,7 @@ class Switch extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isChecked: props.value === props.checked
+			isChecked: props.value
 		};
 		this.onChange = this.onChange.bind(this);
 	}
@@ -18,28 +20,35 @@ class Switch extends Component {
 	}
 
 	render() {
-		const {isChecked} = this.state;
-		const {checked, unchecked} = this.props;
+		const { isChecked } = this.state;
+		const { labels, name } = this.props;
+		const [ label1, label2 ] = labels;
 
 		return(
 			<div className={s.switch}>
 				<input 
 					type="checkbox" 
-					id={s.checkbox}
+					id={name}
+					name={name}
+					className={`${s.checkbox} ${s.srOnly}`}
 					onChange={this.onChange} 
 					checked={isChecked}
+					tabIndex="1"
 				/>
 				<label 
-					htmlFor={s.checkbox}>
+					htmlFor={name}>
 					<div 
 						className={s.toggle} 
-						data-checked={checked} 
-						data-unchecked={unchecked}>
+						data-checked={label1} 
+						data-unchecked={label2}>
 					</div>
 				</label>
 			</div>
 		);
 	}
 }
+
+Switch.defaultProps = defaultProps;
+Switch.propTypes = propTypes;
 
 export default Switch;

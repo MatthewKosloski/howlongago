@@ -43,7 +43,6 @@ class HowLongAgo extends Component {
 	}
 
 	handleDateChange(index, date) {
-		console.log(index, date);
 		const { dates } = this.state;
 		this.setState({
 			dates: [
@@ -81,6 +80,19 @@ class HowLongAgo extends Component {
 
 		const { dates, isModalOpen, data } = this.state;
 
+		let dataNodes;
+
+		if(data) {
+			dataNodes = Object.keys(data).map((key) => {
+				return(
+					<div key={key} className="l-col-xs-4-of-12">
+						<h3>{key}</h3>
+						<p>{data[key].toLocaleString()}</p>
+					</div>
+				);
+			});
+		}
+
 		return(
 			<div className="container">
 				<TransitionGroup component={FirstChild}>
@@ -101,12 +113,7 @@ class HowLongAgo extends Component {
 				<TransitionGroup component={FirstChild}>
 					{(data && !isModalOpen) ?
 						<Stagger className="l-row">
-							{Object.keys(data).map((key) =>
-								<div key={key} className="l-col-xs-4-of-12">
-									<h3>{key}</h3>
-									<p>{data[key].toLocaleString()}</p>
-								</div>
-							)}
+							{dataNodes}
 						</Stagger>
 					: null}
 				</TransitionGroup>

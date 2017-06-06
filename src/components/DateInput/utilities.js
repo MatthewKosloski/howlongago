@@ -80,6 +80,7 @@ export const validateDateInput = (dateInput) => {
 	if(isNaN(yyyy)) yyyy = yyyyRange[0];
 
 	if(len === 2) {
+		console.log(mm, month);
 		input = month + delimeter;
 	} else if(len === 5) {
 		input = month + delimeter + day + delimeter;
@@ -128,6 +129,7 @@ export const validateTimeInput = (timeInput) => {
 	if(isNaN(minute)) minute = _prefixWith0(mmRange[0]);
 
     if(len === 2) {
+    	console.log(hh, hour);
         input = hour + delimeter;
     } else if(len === 5) {
         input = hour + delimeter + minute;

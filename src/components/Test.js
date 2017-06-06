@@ -1,54 +1,28 @@
 import React, { Component } from 'react';
-import TransitionGroup from 'react-transition-group/TransitionGroup';
-import FirstChild from './FirstChild';
-import Stagger from './Stagger';
+import Switch from './Switch';
 
-class App extends Component {
+class Test extends Component {
 	constructor() {
 		super();
 		this.state = {
-			dates: [
-				{
-					dateString: '10/17/1997',
-					timeString: '02:50',
-					meridiem: 'AM'
-				},
-				{
-					dateString: '06/04/2017',
-					timeString: '08:46',
-					meridiem: 'PM'
-				}
-			],
+			value: true
 		};
-		this.handleDateChange = this.handleDateChange.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
-	componentDidMount() {
-		this.handleDateChange(0, {
-			dateString: '06/05/2017',
-			timeString: '08:46',
-			meridiem: 'PM'
-		});
-	}
-
-	handleDateChange(index, date) {
-		const { dates } = this.state;
-		this.setState({
-			dates: [
-				...dates.slice(0, index),
-				date,
-				...dates.slice(index + 1)
-			]
-		});
+	handleChange(value) {
+		this.setState({ value });
 	}
 
 	render() {
 		return(
-			<div>
-				lol
-			</div>
+			<Switch 
+				labels={['AM', 'PM']}
+				onChange={this.handleChange}
+				value={this.state.value}
+			/>
 		);
 	}
 }
 
-export default App;
+export default Test;

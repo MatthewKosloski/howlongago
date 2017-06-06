@@ -2,7 +2,7 @@ import expect from 'expect';
 
 import * as utils from './utilities';
 
-describe.only('DateInput/utilities', () => {
+describe('DateInput/utilities', () => {
 	describe('dateStringPropType()', () => {
 		it('should throw Error if String doesn\'t match MM/DD/YYYY', () => {
 			expect(
@@ -57,6 +57,12 @@ describe.only('DateInput/utilities', () => {
 			expect(num).toBeGreaterThanOrEqualTo(min);
 			expect(num).toBeLessThanOrEqualTo(max);
 		})
-	})
+	});
+
+	describe.only('validateDateInput()', () => {
+		it('', () => {
+			console.log(utils.validateDateInput('5/'));
+		});
+	});
 
 });

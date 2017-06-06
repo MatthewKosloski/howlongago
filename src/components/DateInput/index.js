@@ -5,6 +5,11 @@ import * as constants from './constants';
 import * as utils from './utilities';
 import defaultProps from './defaultProps';
 import propTypes from './propTypes';
+import Switch from '../Switch';
+import FormField from '../FormField';
+
+const CHECKED_LABEL = constants.AM,
+	UNCHECKED_LABEL = constants.PM;
 
 class DateInput extends Component {
 
@@ -16,31 +21,36 @@ class DateInput extends Component {
 		};
 
 		this.handleDateChange = this.handleDateChange.bind(this);
-		this.handleDateKeyUp = this.handleDateKeyUp.bind(this);
-		this.handleDateBlur = this.handleDateBlur.bind(this);
 		this.handleTimeChange = this.handleTimeChange.bind(this);
-		this.handleTimeKeyUp = this.handleTimeKeyUp.bind(this);
-		this.handleTimeBlur = this.handleTimeBlur.bind(this);
 		this.handleMeridiemChange = this.handleMeridiemChange.bind(this);
 		this.handleTodayClick = this.handleTodayClick.bind(this);
-		this.setDateString = this.setDateString.bind(this);
-		this.setTimeString = this.setTimeString.bind(this);
-		this.setMeridiem = this.setMeridiem.bind(this);
 	}
 
-	handleDateChange(e) {
-		const dateString = utils.validateDateInput(e.target.value);
-		this.setDateString(dateString);
+	handleDateChange(date) {
+		const dateString = utils.validateDateInput(date);
+		this.props.onDateChange({
+			...this.props.date,
+			dateString
+		});
 	}
 
-	handleTimeChange(e) {
-		const timeString = utils.validateTimeInput(e.target.value);
-		this.setTimeString(timeString);
+	handleTimeChange(time) {
+		const timeString = utils.validateTimeInput(time);
+		this.props.onDateChange({
+			...this.props.date,
+			timeString
+		});
 	}
 
-	handleMeridiemChange(e) {
-		const meridiem = e.target.value;
-		this.setMeridiem(meridiem);
+	handleMeridiemChange(isChecked) {
+		const meridiem = isChecked 
+		? CHECKED_LABEL 
+		: UNCHECKED_LABEL;
+
+		this.props.onDateChange({
+			...this.props.date,
+			meridiem
+		});
 	}
 
 	handleTodayClick() {
@@ -51,122 +61,57 @@ class DateInput extends Component {
 		this.props.onDateChange({ dateString, timeString, meridiem });
 	}
 
-	handleDateKeyUp(e) {
-		if(e.which === 8) {
-			e.target.value = '';
-			const dateString = '';
-			this.setDateString(dateString);
-		}
-	}
-
-	handleDateBlur(e) {
-		if(!constants.DATE_REGEX.test(e.target.value)) {
-			const dateString = this.props.defaultDateString;
-			this.setDateString(dateString);
-		}
-	}
-
-	handleTimeKeyUp(e) {
-		if(e.which === 8) {
-			e.target.value = '';
-			const timeString = '';
-			this.setTimeString(timeString);
-		}
-	}
-
-	handleTimeBlur(e) {
-		if(!constants.TIME_REGEX.test(e.target.value)) {
-			const timeString = this.props.defaultTimeString;
-			this.setTimeString(timeString);
-		}
-	}
-
-	setDateString(dateString) {
-		this.props.onDateChange({
-			...this.props.date,
-			dateString
-		});
-	}
-
-	setTimeString(timeString) {
-		this.props.onDateChange({
-			...this.props.date,
-			timeString
-		});
-	}
-
-	setMeridiem(meridiem) {
-		this.props.onDateChange({
-			...this.props.date,
-			meridiem
-		});
-	}
-
 	render() {
-		const { date, dateInputPlaceholder, timeInputPlaceholder } = this.props;
+		const { date, defaultDateString, defaultTimeString, dateInputPlaceholder, timeInputPlaceholder } = this.props;
 		const { dateString, timeString, meridiem } = date;
 		const { id } = this.state;
 
 		return(
 			<div className="l-row">
+
 				<div className="l-col-xs-12-of-12 l-col-sm-2-of-12">
 					<button type="button" onClick={this.handleTodayClick}>Today</button>
 				</div>
+
 				<div className="l-col-xs-12-of-12 l-col-sm-5-of-12">
-					<label htmlFor={`date-${id}`}>Date</label>
-					<input 
-						type="text" 
-						maxLength="10"
-						id={`date-${id}`} 
+					<FormField
+						id={`date-${id}`}
+						label="Date"
+						length="10"
 						placeholder={dateInputPlaceholder}
 						value={dateString}
-						onKeyUp={this.handleDateKeyUp}
+						defaultValue={defaultDateString}
 						onChange={this.handleDateChange}
-						onBlur={this.handleDateBlur}
+						regex={constants.DATE_REGEX}
 					/>
 				</div>
-				<div className="l-col-xs-12-of-12 l-col-sm-5-of-12">
-					<div className="l-col-xs-12-of-12">
-						<label htmlFor={`time-${id}`}>Time</label>
-						<input 
-							type="text" 
-							maxLength="5"
-							id={`time-${id}`} 
-							placeholder={timeInputPlaceholder}
-							value={timeString}
-							onKeyUp={this.handleTimeKeyUp}
-							onChange={this.handleTimeChange}
-							onBlur={this.handleTimeBlur}
-						/>
-						<label htmlFor={`am-${id}`}>
-							AM
-							<input
-								type="radio"
-								id={`am-${id}`}
-								name={`meridiem-${id}`}
-								value={constants.AM}
-								onChange={this.handleMeridiemChange}
-								checked={meridiem === constants.AM}
-							/>
-						</label>
 
-						<label htmlFor={`pm-${id}`}>
-							PM
-							<input
-								type="radio"
-								id={`pm-${id}`}
-								name={`meridiem-${id}`}
-								value={constants.PM}
-								onChange={this.handleMeridiemChange}
-								checked={meridiem === constants.PM}
-							/>
-						</label>
-					</div>
+				<div className="l-col-xs-12-of-12 l-col-sm-5-of-12">
+					<FormField
+						id={`time-${id}`}
+						label="Time"
+						length="5"
+						placeholder={timeInputPlaceholder}
+						value={timeString}
+						defaultValue={defaultTimeString}
+						onChange={this.handleTimeChange}
+						regex={constants.TIME_REGEX}
+					/>
+					<Switch
+						name={`meridiem-${id}`}
+						labels={[CHECKED_LABEL, UNCHECKED_LABEL]}
+						onChange={this.handleMeridiemChange}
+						value={meridiem === CHECKED_LABEL}
+					/>
 				</div>
+
 			</div>
 		);
 	}
 
 }
+
+DateInput.defaultProps = defaultProps;
+DateInput.propTypes = propTypes;
 
 export default DateInput;
