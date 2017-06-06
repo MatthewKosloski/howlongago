@@ -66,9 +66,9 @@ export const validateDateInput = (dateInput) => {
 	const yyyyRange = [1000, 9999];
 
 	// if lower than minimum, use minimum. if higher than maximum, use maximum.
-	let mm = Math.max(mmRange[0], Math.min(mmRange[1], +input.substr(0, 2)));
-	let dd = Math.max(ddRange[0], Math.min(ddRange[1], +input.substr(3, 2)));
-	let yyyy = Math.max(yyyyRange[0], Math.min(yyyyRange[1], +input.substr(6, 4)));
+	let mm = Math.max(mmRange[0], Math.min(mmRange[1], parseInt(input.substr(0, 2), 10)));
+	let dd = Math.max(ddRange[0], Math.min(ddRange[1], parseInt(input.substr(3, 2), 10)));
+	let yyyy = Math.max(yyyyRange[0], Math.min(yyyyRange[1], parseInt(input.substr(6, 4), 10)));
 
 	// add 0 prefix to numbers less than 10
 	let month = _prefixWith0(mm);
@@ -80,7 +80,6 @@ export const validateDateInput = (dateInput) => {
 	if(isNaN(yyyy)) yyyy = yyyyRange[0];
 
 	if(len === 2) {
-		console.log(mm, month);
 		input = month + delimeter;
 	} else if(len === 5) {
 		input = month + delimeter + day + delimeter;
@@ -129,7 +128,6 @@ export const validateTimeInput = (timeInput) => {
 	if(isNaN(minute)) minute = _prefixWith0(mmRange[0]);
 
     if(len === 2) {
-    	console.log(hh, hour);
         input = hour + delimeter;
     } else if(len === 5) {
         input = hour + delimeter + minute;

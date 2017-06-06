@@ -16,11 +16,17 @@ class Test extends Component {
 
 	render() {
 		return(
-			<Switch 
-				labels={['AM', 'PM']}
-				onChange={this.handleChange}
-				value={this.state.value}
-			/>
+			<div>
+				<Switch 
+					name="switcheroo"
+					labels={['AM', 'PM']}
+					onChange={this.handleChange}
+					value={this.state.value}
+				/>
+				<button onClick={() => {
+					this.handleChange(false);
+				}}>Change</button>
+			</div>
 		);
 	}
 }

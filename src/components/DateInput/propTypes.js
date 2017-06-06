@@ -5,12 +5,12 @@ import * as utils from './utilities';
 const propTypes = {
 	onDateChange: PropTypes.func.isRequired,
 	date: PropTypes.shape({
-		dateString: utils.dateStringPropType,
-		timeString: utils.timeStringPropType,
-		meridiem: utils.meridiemPropType
+		dateString: PropTypes.string,
+		timeString: PropTypes.string,
+		meridiem: PropTypes.string
 	}).isRequired,
-	defaultDateString: utils.dateStringPropType,
-	defaultTimeString: utils.timeStringPropType,
+	defaultDateString: PropTypes.string,
+	defaultTimeString: PropTypes.string,
 	dateInputPlaceholder: PropTypes.string,
 	timeInputPlaceholder: PropTypes.string
 };
