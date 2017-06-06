@@ -14,6 +14,12 @@ class Switch extends Component {
 		this.onChange = this.onChange.bind(this);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if(this.state.isChecked !== nextProps.value) {
+			this.setState({ isChecked: nextProps.value });
+		}
+	}
+
 	onChange(e) {
 		this.setState({isChecked: !this.state.isChecked});
 		this.props.onChange(e.target.checked);
