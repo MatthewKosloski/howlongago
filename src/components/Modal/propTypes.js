@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
 const propTypes = {
-	ariaLabel: PropTypes.string.isRequired,
-	ariaDescription: PropTypes.string.isRequired,
+	ariaLabelledBy: PropTypes.string.isRequired,
+	ariaDescribedBy: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	shouldCloseOnOverlayClick: PropTypes.bool,

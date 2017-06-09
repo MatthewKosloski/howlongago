@@ -1,3 +1,5 @@
+@import '~abstracts';
+
 .container {
     display: flex;
     align-items: center;
@@ -11,14 +13,16 @@
 }
 
 .dialog {
-    background-color: #ccc;
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 0 3px 4px 3px rgba(0, 0, 0, 0.2);
     position: relative;
-    width: 600px;
-    height: 400px;
+    width: auto;
+    height: auto;
     max-width: 100%;
     max-height: 100%;
-    margin: 0 10px;
-    padding: 0 10px;
+    margin: 0 15px;
+    padding: 25px;
     overflow: auto;
     z-index: 2;
 }
@@ -31,6 +35,13 @@
     bottom: 0;
     right: 0;
     z-index: 1;
+}
+
+.close {
+    position: absolute;
+    cursor: pointer;
+    top: 25px;
+    right: 25px;
 }
 
 .srOnly {

@@ -1,0 +1,36 @@
+@import '~abstracts';
+
+.btn {
+	text-transform: uppercase;
+	font-weight: 700;
+	padding: 10px 25px;
+	border: 1px solid;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.btn--default {
+	background-color: $catskillWhite;
+	border-color: $botticelli;
+	color: $slateGray;
+}
+
+.btn--blue {
+	background-color: $pictonBlue;
+	border-color: $pictonBlue;
+	color: $white;
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.btn--active {
+	background-color: $botticelli;
+	border-color: $botticelli;
+	color: $slateGray;
+}
+
+.btn--full-width {
+	width: 100%;
+}

@@ -1,3 +1,16 @@
 $breakpoint-large: 1000px;
 $breakpoint-medium: 768px;
 $breakpoint-small: 500px;
+
+$breakpoints: (
+    lg: $breakpoint-large,
+    md: $breakpoint-medium,
+    sm: $breakpoint-small
+);
+
+$white: #fff;
+$tuna: #363940;
+$botticelli: #DDE2EE; 
+$pictonBlue: #26A2EB;
+$slateGray: #64728b;
+$catskillWhite: #F5F7FA;

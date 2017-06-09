@@ -1,20 +1,20 @@
-$blue: rgb(11, 88, 216);
+@import '~abstracts';
 
 .switch {
 	display: inline-block;
+	width: 100%;
 }
 
 .toggle {
 	&::before {
 		content: attr(data-unchecked);
 		transform: translate3d(100%, 0, 0);
-		background: $blue;
+		background: $botticelli;
 		z-index: 2;
 	}
 	&::after {
 		content: attr(data-checked);
 		transform: translate3d(-100%, 0, 0);
-		color: $blue;
 	}
 	&::before,
 	&::after {
@@ -24,14 +24,16 @@ $blue: rgb(11, 88, 216);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 6px 0;
+		padding: 10px 0;
 		cursor: pointer;
 	}
-	border: 2px solid $blue;
+	background-color: $catskillWhite;
+	border: 1px solid $botticelli;
+	color: $slateGray;
+	font-weight: 700;
 	border-radius: 4px;
 	display: flex;
-	color: #fff;
-	width: 140px;
+	width: auto;
 }
 
 .srOnly {

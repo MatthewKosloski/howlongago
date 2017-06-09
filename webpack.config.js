@@ -104,7 +104,7 @@ module.exports = {
         extensions: ['', '.js', '.css', '.scss'],
         alias: {
             bourbon: path.join(__dirname, '/node_modules/bourbon/app/assets/stylesheets/_bourbon.scss'),
-            reactDatePicker: path.join(__dirname, '/node_modules/react-datepicker/src/stylesheets/datepicker.scss'),
+            abstracts: path.join(__dirname, 'src/scss/abstracts/_index.scss')
         }
     },
     devServer: {

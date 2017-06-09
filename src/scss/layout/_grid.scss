@@ -3,7 +3,6 @@
 }
 
 $gridGutter: 10px;
-$gridSizes: 'xs', 'sm', 'md', 'lg';
 
 .l-row {
 	display: flex;
@@ -23,21 +22,24 @@ $gridSizes: 'xs', 'sm', 'md', 'lg';
 	justify-content: center;
 }
 
-@each $size in $gridSizes {
-	@include breakpoint($size) {
+// extends $breakpoints by adding a "xs" key
+$modifiedBreakpoints: map-merge((xs: ''), $breakpoints);
+
+@each $key, $value in $modifiedBreakpoints {
+	@include breakpoint($key) {
 		@for $i from 1 through 12 {
 			$width: percentageOfTwelve($i);
-			.l-col-#{$size}-#{$i}-of-12 {
+			.l-col-#{$key}-#{$i}-of-12 {
 				flex: 1 0 $width;
 				max-width: $width;
 			}
-			.l-col-#{$size}-offset-#{$i}-of-12 {
+			.l-col-#{$key}-offset-#{$i}-of-12 {
 				margin-left: $width;
 			}
-			.l-col-#{$size}-first {
+			.l-col-#{$key}-first {
 			  order: -1;
 			}
-			.l-col-#{$size}-last {
+			.l-col-#{$key}-last {
 			  order: 1;
 			}
 		}

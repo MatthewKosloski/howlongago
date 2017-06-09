@@ -11,13 +11,16 @@ const Form = (props) => {
 					key={i}
 					date={date}
 					onDateChange={props.onDateChange.bind(null, i)}
+					onTodayClick={props.onTodayClick.bind(null, i)}
 				/>
 			)}
-			<div className="l-row">
-				<div className="l-col-xs-12-of-12">
-					<button type="submit">Submit</button>
-				</div>
-			</div>
+			<button 
+				type="submit" 
+				className="btn btn--blue" 
+				disabled={!props.canSubmit} 
+				aria-disabled={!props.canSubmit}>
+				Submit
+			</button>
 		</form>
 	);
 }

@@ -27,7 +27,7 @@ class Switch extends Component {
 
 	render() {
 		const { isChecked } = this.state;
-		const { labels, name } = this.props;
+		const { labels, name, className } = this.props;
 		const [ label1, label2 ] = labels;
 
 		return(
@@ -39,7 +39,6 @@ class Switch extends Component {
 					className={`${s.checkbox} ${s.srOnly}`}
 					onChange={this.onChange} 
 					checked={isChecked}
-					tabIndex="1"
 				/>
 				<label 
 					htmlFor={name}>

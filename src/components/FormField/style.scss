@@ -1,0 +1,63 @@
+@import '~abstracts';
+
+$strokeHeight: 2px;
+
+.component {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+} 
+
+.componentInput {
+	&:valid,
+	&:focus {
+		~ .componentLabel {
+			text-transform: uppercase;
+			font-size: 12px;
+			top: -20px;
+		}
+		~ .componentStroke {
+			&::after {
+				width: 100%;
+			}
+		}
+	}
+	border: none;
+	background-color: transparent;
+	outline: none;
+	font-size: 16px;
+	padding-bottom: 5px;
+	color: $tuna;
+	width: 100%;
+}
+
+.componentLabel {
+	transition: top 0.1s ease-in-out, font-size 0.1s ease-in-out;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: $slateGray;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.componentStroke {
+	&,
+	&::after {
+		position: absolute;
+		display: block;
+	}
+	&::after {
+		content: '';
+		transition: width 0.2s ease-in-out;
+		background-color: $pictonBlue;
+		top: calc(100% - #{$strokeHeight});
+		height: $strokeHeight;
+		width: 0%;
+	}
+	background-color: $botticelli;
+	height: $strokeHeight;
+	overflow: hidden;
+	width: 100%;
+	top: 100%;
+}

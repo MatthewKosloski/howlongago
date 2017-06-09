@@ -11,6 +11,8 @@ class Modal extends Component {
 		super();
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
+		this.handleCloseButton = this.handleCloseButton.bind(this);
+		this._close = this._close.bind(this);
 	}
 	componentDidMount() {
 		if(this.props.shouldHideBodyOverflow) {
@@ -30,14 +32,18 @@ class Modal extends Component {
 
     handleClickOutside(e) {
     	if(this.props.shouldCloseOnOverlayClick && this.dialog && !this.dialog.contains(e.target)) {
-    		this.props.onClose();
+    		this._close();
     	}
+    }
+
+    handleCloseButton() {
+    	this._close();
     }
 
     handleKeyDown(e) {
     	// ESC
     	if(e.keyCode === 27) {
-    		this.props.onClose();
+    		this._close();
     	}
     }
 
@@ -57,8 +63,12 @@ class Modal extends Component {
 		TweenMax.fromTo(this.dialog, duration + (duration * 0.5), fromVars, {...toVars, onComplete: callback});
 	}
 
+	_close() {
+    	this.props.onClose();
+    }
+
 	render() {
-		const { children, isOpen, ariaLabel, ariaDescription } = this.props;
+		const { children, isOpen, ariaLabelledBy, ariaDescribedBy } = this.props;
 		return(
 			<div 
 				ref={el => this.container = el} 
@@ -68,15 +78,21 @@ class Modal extends Component {
 					ref={el => this.dialog = el}
 	            	className={s.dialog} 
 	            	role="dialog" 
-	            	aria-labelledby="modal-title" 
-	            	aria-describedby="modal-description">
-	                <h1 tabIndex="-1" id="modal-title" className={s.srOnly}>{ariaLabel}</h1>
-	                <p tabIndex="-1" id="modal-description" className={s.srOnly}>{ariaDescription}</p>
+	            	aria-labelledby={ariaLabelledBy} 
+	            	aria-describedby={ariaDescribedBy}>
+	                	<a 
+	                		role="button"
+	                		aria-label="Close dialog window"
+	                		href="#" 
+	                		className={s.close} 
+	                		onClick={this.handleCloseButton}>
+	                			<svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><title>close</title><path d="M14 1.41L12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7" fill="#DDE2EE" fillRule="evenodd"/></svg>
+	                	</a>
 	                {children}
 	            </div>
 	            <div 
 					className={s.overlay} 
-					tabIndex="-1">
+					aria-hidden="true">
 				</div>
 	        </div>
 		);

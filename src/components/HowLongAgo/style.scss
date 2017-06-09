@@ -1,7 +1,20 @@
-.title {
+@import '~abstracts';
+
+.modalTitleContainer {
 	text-align: center;
+	margin-bottom: 75px;
 }
 
-.blockLabel {
-	display: block;
+.modalTitleContainer__title {
+	color: $tuna;
+}
+
+.modalTitleContainer__subTitle {
+	@include breakpoint(sm) {
+		width: 80%;
+	}
+	color: $slateGray;
+	max-width: 600px;
+	width: 100%;
+	margin: 0 auto;
 }
