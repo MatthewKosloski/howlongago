@@ -1,8 +1,6 @@
 const defaultProps = {
-	defaultDateString: '01/01/1000',
-	defaultTimeString: '12:00',
-	dateInputPlaceholder: 'mm/dd/yyyy',
-	timeInputPlaceholder: 'hh:mm'
+	dateLabel: 'mm/dd/yyyy',
+	timeLabel: 'hh:mm'
 };
 
 export default defaultProps;

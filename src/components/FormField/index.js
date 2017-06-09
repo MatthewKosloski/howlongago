@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+import propTypes from './propTypes';
 import s from './style.scss';
 
 class FormField extends Component {
@@ -22,7 +24,7 @@ class FormField extends Component {
 	}
 
 	render() {
-		const { id, label, length, placeholder, value, isRequired, ariaLabel } = this.props;
+		const { id, label, length, value, isRequired, ariaLabel } = this.props;
 		return(
 			<div className={s.component}>
 
@@ -43,10 +45,15 @@ class FormField extends Component {
 					htmlFor={id}>
 					{label}
 				</label>
-				<span className={s.componentStroke} aria-hidden="true"></span>
+				<span 
+					className={s.componentStroke} 
+					aria-hidden="true">
+				</span>
 			</div>
 		);
 	}
 };
+
+FormField.propTypes = propTypes;
 
 export default FormField;

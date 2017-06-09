@@ -59,12 +59,11 @@ class DateInput extends Component {
 	_onDateChange(date) {
 		// set isToday to false if user is typing in input fields
 		if(date.isToday) date.isToday = false;
-
 		this.props.onDateChange(date);
 	}
 
 	render() {
-		const { date, defaultDateString, defaultTimeString, dateInputPlaceholder, timeInputPlaceholder } = this.props;
+		const { date, dateLabel, timeLabel } = this.props;
 		const { dateString, timeString, meridiem, isToday } = date;
 		const { id } = this.state;
 
@@ -74,12 +73,10 @@ class DateInput extends Component {
 					<div className="l-row">
 						<div className={`${s.formField} l-col-xs-12-of-12 l-col-sm-6-of-12`}>
 							<FormField
-								id={`date-${id}`}
-								label={dateInputPlaceholder}
 								length="10"
-								placeholder={dateInputPlaceholder}
+								id={`date-${id}`}
+								label={dateLabel}
 								value={dateString}
-								defaultValue={defaultDateString}
 								onChange={this.handleDateChange}
 								ariaLabel="Date in the form of MM/DD/YYYY"
 								isRequired={true}
@@ -87,12 +84,10 @@ class DateInput extends Component {
 						</div>
 						<div className={`${s.formField} l-col-xs-12-of-12 l-col-sm-6-of-12`}>
 							<FormField
-								id={`time-${id}`}
-								label={timeInputPlaceholder}
 								length="5"
-								placeholder={timeInputPlaceholder}
+								id={`time-${id}`}
+								label={timeLabel}
 								value={timeString}
-								defaultValue={defaultTimeString}
 								onChange={this.handleTimeChange}
 								ariaLabel="Time in the form of HH:MM"
 								isRequired={true}
