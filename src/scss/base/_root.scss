@@ -1,5 +1,12 @@
+@import '~abstracts';
+
 html {
 	font: normal 100%/1.5 'Open Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	background-color: $tuna;
+	color: $white;
 }
