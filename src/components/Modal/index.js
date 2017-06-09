@@ -68,7 +68,7 @@ class Modal extends Component {
     }
 
 	render() {
-		const { children, isOpen, ariaLabelledBy, ariaDescribedBy } = this.props;
+		const { children, isOpen, ariaLabelledBy, ariaDescribedBy, overlayOpacity } = this.props;
 		return(
 			<div 
 				ref={el => this.container = el} 
@@ -91,6 +91,7 @@ class Modal extends Component {
 	                {children}
 	            </div>
 	            <div 
+	            	style={{opacity: overlayOpacity}}
 					className={s.overlay} 
 					aria-hidden="true">
 				</div>

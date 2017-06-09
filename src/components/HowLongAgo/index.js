@@ -12,6 +12,7 @@ import {
 } from '../HowLongAgo/utilities';
 
 import * as utils from './utilities';
+import * as constants from './constants';
 import s from './style.scss';
 
 class HowLongAgo extends Component {
@@ -80,17 +81,13 @@ class HowLongAgo extends Component {
 	}
 
 	getSubmissionStatus() {
-		const DATE_REGEX = /^(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/([1-9]\d{3})$/;
-		const TIME_REGEX = /^(0[1-9]|[1][012])\:([0-5][0-9])$/;
-
 		const { dates } = this.state;
-		
 		let canSubmit = true;
 
 		// if the current date's dateString OR timeString are invalid, return false
 		for(let i = 0; i < dates.length; i++) {
 			const { dateString, timeString } = dates[i];
-			if(!DATE_REGEX.test(dateString) || !TIME_REGEX.test(timeString)) {
+			if(!constants.DATE_REGEX.test(dateString) || !constants.TIME_REGEX.test(timeString)) {
 				canSubmit = false;
 				break;
 			}
@@ -148,6 +145,7 @@ class HowLongAgo extends Component {
 				<TransitionGroup component={FirstChild}>
 					{isModalOpen ?
 						<Modal
+							overlayOpacity={0}
 							ariaLabelledBy="modal-label"
 							ariaDescribedBy="modal-description"
 							isOpen={isModalOpen}

@@ -1,5 +1,6 @@
 const defaultProps = {
 	duration: 0.3,
+	overlayOpacity: 0.7,
 	shouldCloseOnOverlayClick: true,
 	shouldHideBodyOverflow: true,
 	animation: {

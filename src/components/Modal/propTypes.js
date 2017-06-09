@@ -7,6 +7,7 @@ const propTypes = {
 	onClose: PropTypes.func.isRequired,
 	shouldCloseOnOverlayClick: PropTypes.bool,
 	shouldHideBodyOverflow: PropTypes.bool,
+	overlayOpacity: PropTypes.number,
 	duration: PropTypes.number,
 	animation: PropTypes.shape({
 		componentWillEnter: PropTypes.shape({
