@@ -1,5 +1,5 @@
 @mixin breakpoint($b) {
-    @each $key, $value in $breakpoints {
+    @each $key, $value in $myBreakpoints {
         @if $b == $key {
             @media (min-width: $value) {
                 @content;

@@ -15,7 +15,6 @@ const LOCAL_IDENT_NAME = IS_DEV ?
 : '[hash:base64:2]';
 
 const globals = [
-    resolve('./node_modules/normalize.css'), // any NPM module
     resolve('./src/scss'), // global CSS classes
 ];
 
@@ -27,7 +26,6 @@ module.exports = {
     devtool: IS_DEV ? 'cheap-eval-source-map' : 'source-map',
     entry: {
         bundle: [
-            './node_modules/normalize.css',
             './src/scss',
             './src/app'
         ]
@@ -104,6 +102,8 @@ module.exports = {
         extensions: ['', '.js', '.css', '.scss'],
         alias: {
             bourbon: path.join(__dirname, '/node_modules/bourbon/app/assets/stylesheets/_bourbon.scss'),
+            normalize: path.join(__dirname, 'node_modules/normalize.css/normalize.css'),
+            typi: path.join(__dirname, 'node_modules/typi/scss/_typi.scss') ,
             abstracts: path.join(__dirname, 'src/scss/abstracts/_index.scss')
         }
     },

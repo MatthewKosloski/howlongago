@@ -22,8 +22,8 @@ $gridGutter: 10px;
 	justify-content: center;
 }
 
-// extends $breakpoints by adding a "xs" key
-$modifiedBreakpoints: map-merge((xs: ''), $breakpoints);
+// extends $myBreakpoints by adding a "xs" key
+$modifiedBreakpoints: map-merge((xs: ''), $myBreakpoints);
 
 @each $key, $value in $modifiedBreakpoints {
 	@include breakpoint($key) {

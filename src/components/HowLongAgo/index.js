@@ -29,8 +29,8 @@ class HowLongAgo extends Component {
 					isToday: false,
 				},
 				{
-					dateString: '',
-					timeString: '',
+					dateString: '10/17/1997',
+					timeString: '02:50',
 					meridiem: 'AM',
 					isToday: false,
 				}
@@ -132,16 +132,18 @@ class HowLongAgo extends Component {
 		if(data) {
 			dataNodes = Object.keys(data).map((key) => {
 				return(
-					<div key={key} className="l-col-xs-4-of-12">
-						<h3>{key}</h3>
-						<p>{data[key].toLocaleString()}</p>
+					<div key={key} className="l-col-xs-6-of-12 l-col-md-4-of-12">
+						<div className={s.dataNode}>
+							<h2 className={s.dataNode__number}>{data[key].toLocaleString()}</h2>
+							<p className={s.dataNode__label}>{key}</p>
+						</div>
 					</div>
 				);
 			});
 		}
 
 		return(
-			<div className="container">
+			<div className={s.outer}>
 				<TransitionGroup component={FirstChild}>
 					{isModalOpen ?
 						<Modal
@@ -167,14 +169,26 @@ class HowLongAgo extends Component {
 						</Modal>
 					: null}
 				</TransitionGroup>
-				<TransitionGroup component={FirstChild}>
-					{(data && !isModalOpen) ?
-						<Stagger className="l-row">
-							{dataNodes}
-						</Stagger>
-					: null}
-				</TransitionGroup>
-				<button onClick={this.openModal}>Again</button>
+				<div className="container">
+					<TransitionGroup component={FirstChild}>
+						{(data && !isModalOpen) ?
+							<Stagger className="l-row">
+								{dataNodes}
+							</Stagger>
+						: null}
+					</TransitionGroup>
+					<div className="l-row">
+						<div className="l-col-xs-12-of-12">
+							<div className={s.buttonContainer}>
+								<button 
+									className="btn btn--blue"
+									onClick={this.openModal}>
+									Again
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		);
 	}

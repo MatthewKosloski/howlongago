@@ -191,9 +191,9 @@ export const getTimeDifference = (higherDate, lowerDate) => {
 		weeks = _adjust(days / 7),
 		fortnights = _adjust(weeks / 2),
 		months = _adjust(weeks / 4.35),
-		years = _adjust(months / 12),
-		decades = _adjust(years / 10),
-		centuries = _adjust(decades / 10);
+		years = _adjust(months / 12);
+		// decades = _adjust(years / 10),
+		// centuries = _adjust(decades / 10);
 
 	// removed milliseconds because it is almost the same as seconds
 	return {
@@ -207,8 +207,8 @@ export const getTimeDifference = (higherDate, lowerDate) => {
 		fortnights,
 		months,
 		years,
-		decades,
-		centuries,
+		// decades,
+		// centuries,
 	}
 }
 
