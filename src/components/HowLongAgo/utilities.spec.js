@@ -2,6 +2,7 @@ import expect from 'expect';
 import moment from 'moment';
 
 import * as utils from './utilities';
+import { daysOfTheWeek, monthsOfTheYear } from './constants';
 
 /*
 *
@@ -15,7 +16,22 @@ const _prefixWithZero = (num) => {
 	return num < 10 ? ('0' + num) : String(num);
 }
 
-describe('HowLongAgo/utilities', () => {
+const _toTwelveHours = (hours, minutes) => {
+	let meridiem;
+	if(hours >= 12) {
+		hours = _prefixWithZero(hours - 12);
+		meridiem = 'PM';
+	} else if(hours === 0) {
+		hours = String(12);
+		meridiem = 'AM';
+	} else {
+		meridiem = 'AM';
+	}
+	minutes = String(minutes);
+	return { hours, minutes, meridiem };
+}
+
+describe.only('HowLongAgo/utilities', () => {
 
 	describe('getCurrentDate() and getCurrentDateString()', () => {
 
@@ -77,16 +93,10 @@ describe('HowLongAgo/utilities', () => {
 
 		let hours, minutes, meridiem;
 		before(() => {
-			if(moment().hours() >= 12) {
-				hours = _prefixWithZero(moment().hours() - 12);
-				meridiem = 'PM';
-			} else if(moment().hours() === 0) {
-				hours = String(12);
-				meridiem = 'AM';
-			} else {
-				meridiem = 'AM';
-			}
-			minutes = _prefixWithZero(moment().minutes());
+			const current12Hours = _toTwelveHours(moment().hours(), moment().minutes());
+			hours = current12Hours.hours;
+			minutes = current12Hours.minutes;
+			meridiem = current12Hours.meridiem;
 		});
 
 		describe('getCurrentTime()', () => {
@@ -109,6 +119,92 @@ describe('HowLongAgo/utilities', () => {
 				minutes: 19 
 			}).toEqual(utils.deconstructTimeString('09:19'));
 		});
+	});
+
+	describe('getSummary()', () => {
+
+		/*
+		* A helper function to easily construct date blueprints
+		* with a predefined time of 12:00 AM.
+		*/
+		let testDate;
+		/*
+		* Takes a dateString and returns a String of text
+		* describing it.
+		* Example: "Friday, October 17th, 1997"
+		*/
+		let descriptor;
+		before(() => {
+			const _to24 = (hours, minutes, meridiem) => {
+				if(meridiem === 'PM' && hours < 12) hours = hours + 12;
+				if(meridiem === 'AM' && hours === 12) hours = hours - 12;
+				return { hours, minutes };
+			}
+			testDate = (dateString) => {
+				return {dateString, timeString: '12:00', meridiem: 'AM'};
+			};
+			descriptor = (date) => {
+				const { dateString, timeString, meridiem} = date; 
+				const [hours, minutes] = timeString.split(':');
+				const _moment = moment(`${dateString}T${_to24(hours, minutes, meridiem)}`, 'MM-DD-YYYY');
+				return _moment.format('dddd, MMMM Do, YYYY [at] hh:mm A');
+			}
+		});
+
+		it('should work for two past dates', () => {
+			const date1 = testDate('10/17/1997');
+			const date2 = testDate('10/17/2000');
+
+			const expectation = `Time elapsed between ${descriptor(date1)} and ${descriptor(date2)}`;
+
+			expect(utils.getSummary(date1, date2)).toBe(expectation);
+		});
+
+		it('should work for a past date and present date', () => {
+			const date2 = testDate('10/17/1997');
+			const date1 = utils.getNowDate();
+
+			const expectation = `Time elapsed since ${descriptor(date2)}`;
+
+			expect(utils.getSummary(date1, date2)).toBe(expectation);
+		});
+
+		it('should work for a past and future date', () => {
+			const date2 = testDate('10/17/1997');
+			const date1 = testDate('10/17/9999');
+
+			const expectation = `Time that will elaspe between ${descriptor(date1)} and ${descriptor(date2)}`;
+
+			expect(utils.getSummary(date1, date2)).toBe(expectation);
+		});
+
+		// it('Present and Present', () => {
+		// 	const date1 = utils.getNowDate();
+		// 	const date2 = utils.getNowDate();
+
+		// 	const expectation = `Time elapsed between ${descriptor(date1)} and ${descriptor(date2)}`;
+				
+		// 	expect(utils.getSummary(date1, date2)).toEqual(expectation);
+		// });
+
+		it('should work for a present and future date', () => {
+			const date1 = utils.getNowDate();
+			const date2 = testDate('10/17/9999');
+
+			const expectation = `Time remaining until ${descriptor(date2)}`;
+			
+			expect(utils.getSummary(date1, date2)).toBe(expectation);
+		});
+
+		it('should work for two future dates', () => {
+			const date1 = testDate('10/17/9998');
+			const date2 = testDate('10/17/9999');
+
+			const expectation = `Time that will elaspe between ${descriptor(date1)} and ${descriptor(date2)}`;
+			
+			expect(utils.getSummary(date1, date2)).toBe(expectation);
+		});
+
 	});
 
 });

@@ -5,11 +5,7 @@ import FirstChild from '../FirstChild';
 import Modal from '../Modal';
 import Form from '../Form';
 import Stagger from '../Stagger';
-import { 
-	getCurrentDateString, 
-	getCurrentTimeString, 
-	getCurrentTime 
-} from '../HowLongAgo/utilities';
+import { getDifferenceOfDates, getNowDate, getSummary } from '../HowLongAgo/utilities';
 
 import * as utils from './utilities';
 import * as constants from './constants';
@@ -106,13 +102,11 @@ class HowLongAgo extends Component {
 
 	_setData() {
 		const [ date1, date2 ] = this.state.dates;
-		this.setState({ data: utils.getDifferenceOfDates(date1, date2)});
+		this.setState({ data: getDifferenceOfDates(date1, date2)});
 	}
 
 	_setToday(index) {
-		const dateString = getCurrentDateString();
-		const timeString = getCurrentTimeString();
-		const meridiem = getCurrentTime().meridiem;
+		const { dateString, timeString, meridiem } = getNowDate();
 		const { isToday } = this.state.dates[index];
 
 		this.handleDateChange(index, { 
@@ -127,15 +121,19 @@ class HowLongAgo extends Component {
 
 		const { dates, isModalOpen, data } = this.state;
 
-		let dataNodes;
+		let dataNodes, dataSummary;
 
 		if(data) {
 			dataNodes = Object.keys(data).map((key) => {
 				return(
 					<div key={key} className="l-col-xs-6-of-12 l-col-md-4-of-12">
 						<div className={s.dataNode}>
-							<h2 className={s.dataNode__number}>{data[key].toLocaleString()}</h2>
-							<p className={s.dataNode__label}>{key}</p>
+							<h2 className={s.dataNode__number}>
+								{data[key].toLocaleString()}
+							</h2>
+							<p className={s.dataNode__label}>
+								{key}
+							</p>
 						</div>
 					</div>
 				);
@@ -147,10 +145,13 @@ class HowLongAgo extends Component {
 				<TransitionGroup component={FirstChild}>
 					{isModalOpen ?
 						<Modal
+							duration={0.3}
+							delay={data ? 0.1 : 0}
 							overlayOpacity={0}
 							ariaLabelledBy="modal-label"
 							ariaDescribedBy="modal-description"
 							isOpen={isModalOpen}
+							canClose={data !== null}
 							onClose={this.handleModalClose}>
 							<div className={s.modalTitleContainer}>
 								<h1 id="modal-label" className={s.modalTitleContainer__title}>How much time?</h1>
@@ -172,22 +173,26 @@ class HowLongAgo extends Component {
 				<div className="container">
 					<TransitionGroup component={FirstChild}>
 						{(data && !isModalOpen) ?
-							<Stagger className="l-row">
+							<Stagger 
+								duration={0.67}
+								delay={0.3}
+								className={`${s.dataNodes} l-row`}>
+								<div className="l-col-xs-12-of-12">
+									<h1 className={`${s.summary} heading-two`}>{getSummary(dates[0], dates[1])}</h1>
+								</div>
 								{dataNodes}
+								<div className="l-col-xs-12-of-12">
+									<div className={s.buttonContainer}>
+										<button 
+											className="btn btn--blue btn--with-arrow"
+											onClick={this.openModal}>
+											Another
+										</button>
+									</div>
+								</div>
 							</Stagger>
 						: null}
 					</TransitionGroup>
-					<div className="l-row">
-						<div className="l-col-xs-12-of-12">
-							<div className={s.buttonContainer}>
-								<button 
-									className="btn btn--blue"
-									onClick={this.openModal}>
-									Again
-								</button>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		);

@@ -15,13 +15,13 @@ class Stagger extends Component {
 	}
 
 	componentWillEnter(callback) {
-		const { duration, stagger, fromVars, toVars } = this.props;
-		TweenMax.staggerFromTo(this.childNodes, duration, fromVars, {...toVars, onComplete: callback}, stagger);
+		const { duration, stagger, fromVars, toVars, delay } = this.props;
+		TweenMax.staggerFromTo(this.childNodes, duration, fromVars, {...toVars, delay, onComplete: callback}, stagger);
 	}
 
 	componentWillLeave(callback) {
-		const { duration, stagger, fromVars, toVars } = this.props;
-		TweenMax.staggerFromTo(this.childNodes, duration, toVars, {...fromVars, onComplete: callback}, stagger);
+		const { duration, stagger, fromVars, toVars, delay } = this.props;
+		TweenMax.staggerFromTo(this.childNodes, duration, toVars, {...fromVars, delay, onComplete: callback}, stagger);
 	}
 
 	render() {

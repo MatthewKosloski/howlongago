@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
 	duration: PropTypes.number,
+	delay: PropTypes.number,
 	stagger: PropTypes.number,
 	fromVars: PropTypes.object,
 	toVars: PropTypes.object,

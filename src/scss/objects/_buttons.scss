@@ -1,9 +1,12 @@
 @import '~abstracts';
 
+$padding: 25;
+
 .btn {
 	text-transform: uppercase;
 	font-weight: 700;
-	padding: 10px 25px;
+	line-height: 45px;
+	padding: 0 addPrefix($padding, 'px');
 	border: 1px solid;
 	cursor: pointer;
 	border-radius: 4px;
@@ -29,6 +32,32 @@
 	background-color: $botticelli;
 	border-color: $botticelli;
 	color: $slateGray;
+}
+
+.btn--with-arrow {
+	&:not([disabled]) {
+		$arrowSize: 12;
+		&:hover {
+			&::after {
+				transform: translate3d(8px, 0, 0);
+				opacity: 1;
+			}
+			padding-right: addPrefix($padding + $arrowSize, 'px');
+		}
+		&::after {
+			content: '';
+			background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+U2hhcGU8L3RpdGxlPjxwYXRoIGZpbGw9IiNGRkYiIGQ9Ik04IDBMNi41OSAxLjQxIDEyLjE3IDdIMHYyaDEyLjE3bC01LjU4IDUuNTlMOCAxNmw4LTgiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==);
+			background-size: addPrefix($arrowSize, 'px');
+			transition: transform 0.33s cubic-bezier(0.680, -0.550, 0.265, 1.550), opacity 0.33s ease-in-out;
+			transform: translate3d(0, 0, 0);
+			width: addPrefix($arrowSize, 'px');
+			height: addPrefix($arrowSize, 'px');
+			position: absolute;
+			top: calc(50% - #{addPrefix($arrowSize / 2, 'px')});
+			opacity: 0;
+		}
+		transition: padding 0.33s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+	}
 }
 
 .btn--full-width {

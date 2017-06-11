@@ -103,7 +103,7 @@ module.exports = {
         alias: {
             bourbon: path.join(__dirname, '/node_modules/bourbon/app/assets/stylesheets/_bourbon.scss'),
             normalize: path.join(__dirname, 'node_modules/normalize.css/normalize.css'),
-            typi: path.join(__dirname, 'node_modules/typi/scss/_typi.scss') ,
+            typi: path.join(__dirname, 'node_modules/typi/scss/_typi.scss'),
             abstracts: path.join(__dirname, 'src/scss/abstracts/_index.scss')
         }
     },

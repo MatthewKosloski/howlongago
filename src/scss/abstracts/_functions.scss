@@ -9,3 +9,7 @@
 
 	@return $value;
 }
+
+@function addPrefix($num, $prefix) {
+	@return $num + 0#{$prefix};
+}

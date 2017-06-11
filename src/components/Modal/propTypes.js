@@ -9,15 +9,11 @@ const propTypes = {
 	shouldHideBodyOverflow: PropTypes.bool,
 	overlayOpacity: PropTypes.number,
 	duration: PropTypes.number,
+	delay: PropTypes.number,
+	canClose: PropTypes.bool,
 	animation: PropTypes.shape({
-		componentWillEnter: PropTypes.shape({
-			fromVars: PropTypes.object,
-			toVars: PropTypes.object
-		}).isRequired,
-		componentWillLeave: PropTypes.shape({
-			fromVars: PropTypes.object,
-			toVars: PropTypes.object
-		}).isRequired
+		fromVars: PropTypes.object,
+		toVars: PropTypes.object
 	})
 };
 

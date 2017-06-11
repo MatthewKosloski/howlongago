@@ -16,7 +16,7 @@ const Form = (props) => {
 			)}
 			<button 
 				type="submit" 
-				className="btn btn--blue" 
+				className="btn btn--blue btn--with-arrow" 
 				disabled={!props.canSubmit} 
 				aria-disabled={!props.canSubmit}>
 				Submit

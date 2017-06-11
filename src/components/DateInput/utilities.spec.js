@@ -58,11 +58,11 @@ describe('DateInput/utilities', () => {
 			expect(num).toBeLessThanOrEqualTo(max);
 		})
 	});
-
-	describe.only('validateDateInput()', () => {
-		it('', () => {
-			console.log(utils.validateDateInput('5/'));
-		});
-	});
+	// TO-DO
+	// describe('validateDateInput()', () => {
+	// 	it('', () => {
+	// 		console.log(utils.validateDateInput('5/'));
+	// 	});
+	// });
 
 });

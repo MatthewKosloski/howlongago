@@ -1,15 +1,14 @@
 const defaultProps = {
-	duration: 1,
+	duration: 0.5,
 	stagger: 0.1,
+	delay: 0,
 	fromVars: {
-		ease: Elastic.easeInOut,
+		y: -20,
 		opacity: 0,
-		y: 0
 	},
 	toVars: {
-		ease: Elastic.easeInOut,
+		y: 0,
 		opacity: 1,
-		y: 20
 	}
 };
 
