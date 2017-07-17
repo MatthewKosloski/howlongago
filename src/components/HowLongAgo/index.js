@@ -5,9 +5,8 @@ import FirstChild from '../FirstChild';
 import Modal from '../Modal';
 import Form from '../Form';
 import Stagger from '../Stagger';
-import { getDifferenceOfDates, getNowDate, getSummary } from '../HowLongAgo/utilities';
 
-import * as utils from './utilities';
+import { getDifferenceOfDates, getNowDate, getSummary } from './utilities';
 import * as constants from './constants';
 import s from './style.scss';
 
@@ -25,8 +24,8 @@ class HowLongAgo extends Component {
 					isToday: false,
 				},
 				{
-					dateString: '10/17/1997',
-					timeString: '02:50',
+					dateString: '',
+					timeString: '',
 					meridiem: 'AM',
 					isToday: false,
 				}
@@ -154,7 +153,7 @@ class HowLongAgo extends Component {
 							canClose={data !== null}
 							onClose={this.handleModalClose}>
 							<div className={s.modalTitleContainer}>
-								<h1 id="modal-label" className={s.modalTitleContainer__title}>How much time?</h1>
+								<h1 id="modal-label" className={s.modalTitleContainer__title}>Date Analyzer</h1>
 								<p id="modal-description" className={s.modalTitleContainer__subTitle}>
 									Enter in any two dates, past, present, or future, to get how much time is in between them.  
 									Click "Today" to automatically fill in the immediately preceeding fields with the current date and time.
