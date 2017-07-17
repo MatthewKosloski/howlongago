@@ -31,7 +31,7 @@ const _toTwelveHours = (hours, minutes) => {
 	return { hours, minutes, meridiem };
 }
 
-describe.only('HowLongAgo/utilities', () => {
+describe('HowLongAgo/utilities', () => {
 
 	describe('getCurrentDate() and getCurrentDateString()', () => {
 
@@ -94,8 +94,8 @@ describe.only('HowLongAgo/utilities', () => {
 		let hours, minutes, meridiem;
 		before(() => {
 			const current12Hours = _toTwelveHours(moment().hours(), moment().minutes());
-			hours = current12Hours.hours;
-			minutes = current12Hours.minutes;
+			hours = _prefixWithZero(current12Hours.hours);
+			minutes = _prefixWithZero(current12Hours.minutes);
 			meridiem = current12Hours.meridiem;
 		});
 

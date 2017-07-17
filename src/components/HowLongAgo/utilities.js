@@ -268,14 +268,10 @@ export const createDate = (blueprint) => {
 */
 export const isNow = (date) => {
 	const { dateString, timeString, meridiem } = getNowDate();
-	if(date.dateString === dateString &&
+	return (date.dateString === dateString &&
 		date.timeString === timeString &&
 		date.meridiem === meridiem
-	) {
-		return true;
-	} else {
-		return false;
-	}
+	);
 }
 
 /*

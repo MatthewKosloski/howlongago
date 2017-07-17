@@ -1,31 +1,31 @@
 import * as constants from './constants';
 
-export const dateStringPropType = (props, propName, componentName) => {
-	if(!constants.DATE_REGEX.test(props[propName])) {
-		return new Error(
-			`Invalid prop ${propName} supplied to ${componentName}.  
-			${propName} must be a String in the form of mm/dd/yyyy.`
-		);
-	}
-}
+// export const dateStringPropType = (props, propName, componentName) => {
+// 	if(!constants.DATE_REGEX.test(props[propName])) {
+// 		return new Error(
+// 			`Invalid prop ${propName} supplied to ${componentName}.  
+// 			${propName} must be a String in the form of mm/dd/yyyy.`
+// 		);
+// 	}
+// }
 
-export const timeStringPropType = (props, propName, componentName) => {
-	if(!constants.TIME_REGEX.test(props[propName])) {
-		return new Error(
-			`Invalid prop ${propName} supplied to ${componentName}.  
-			${propName} must be a String in the form of hh:mm.`
-		);
-	}
-}
+// export const timeStringPropType = (props, propName, componentName) => {
+// 	if(!constants.TIME_REGEX.test(props[propName])) {
+// 		return new Error(
+// 			`Invalid prop ${propName} supplied to ${componentName}.  
+// 			${propName} must be a String in the form of hh:mm.`
+// 		);
+// 	}
+// }
 
-export const meridiemPropType = (props, propName, componentName) => {
-	if(!constants.MERIDIEM_REGEX.test(props[propName])) {
-		return new Error(
-			`Invalid prop ${propName} supplied to ${componentName}.  
-			${propName} must be either AM or PM.`
-		);
-	}
-}
+// export const meridiemPropType = (props, propName, componentName) => {
+// 	if(!constants.MERIDIEM_REGEX.test(props[propName])) {
+// 		return new Error(
+// 			`Invalid prop ${propName} supplied to ${componentName}.  
+// 			${propName} must be either AM or PM.`
+// 		);
+// 	}
+// }
 
 export const getRandomInt = (min, max) => {
 	return Math.floor(Math.random() * (max - min)) + min;
