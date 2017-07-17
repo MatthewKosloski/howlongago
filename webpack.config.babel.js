@@ -1,18 +1,17 @@
-const webpack = require('webpack');
-const path = require('path');
-const cssnano = require('cssnano');
-const resolve = require('path').resolve;
+import webpack from 'webpack';
+import path, { resolve } from 'path';
+import cssnano from 'cssnano';
 
-// Plugins
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
-const LOCAL_IDENT_NAME = IS_DEV ? 
-    '[name]-scss__[local]-class___[hash:base64:2]' 
-: '[hash:base64:2]';
+const LOCAL_IDENT_NAME = IS_DEV 
+    ? '[name]-scss__[local]-class___[hash:base64:2]' 
+    : '[hash:base64:4]';
 
 const globals = [
     resolve('./src/scss'), // global CSS classes
@@ -27,7 +26,7 @@ module.exports = {
     entry: {
         bundle: [
             './src/scss',
-            './src/app'
+            './src/app.js'
         ]
     },
     output: {
@@ -44,14 +43,14 @@ module.exports = {
             // loader for CSS modules
             {
                 test: /\.s?css$/,
-                loader:  ExtractTextPlugin.extract('style', `css?modules&localIdentName=${LOCAL_IDENT_NAME}!sass`),
+                loader:  ExtractTextPlugin.extract('style', `css?modules&localIdentName=${LOCAL_IDENT_NAME}!postcss!sass`),
                 include: cssModules,
                 exclude: globals
             },
             // loader for global styles
             {
                 test: /\.s?css$/,
-                loader:  ExtractTextPlugin.extract('style', 'css!sass'),
+                loader:  ExtractTextPlugin.extract('style', 'css!postcss!sass'),
                 include: globals,
                 exclude: cssModules
             }
@@ -64,7 +63,19 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
-        })
+        }),
+        new BrowserSyncPlugin(
+            {
+                host: 'localhost',
+                port: 3000,
+                proxy: 'http://localhost:8080/',
+                open: false,
+                ui: false
+            },
+            {
+                reload: false
+            }
+        )
     ] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -94,7 +105,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             minify: {
-                collapseWhitespace: truedatepi
+                collapseWhitespace: true
             }
         })
     ],
@@ -109,7 +120,6 @@ module.exports = {
     },
     devServer: {
         contentBase: './public',
-        port: 3000,
         noInfo: true,
         hot: false
     }

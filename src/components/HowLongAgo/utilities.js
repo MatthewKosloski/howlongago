@@ -292,63 +292,6 @@ export const getNowDate = () => {
 }
 
 /*
-* Takes a "blueprint" object containing keys
-* for a dateString, timeString, and meridiem
-* and returns the days of the week as a String 
-* (e.g., "Monday").
-*
-* @param {Object} date
-* @return {String}
-*
-*/
-export const getDayOfTheWeek = (date) => {
-	return daysOfTheWeek[createDate(date).getDay()];
-}
-
-/*
-* Takes a Number (a day of the month) and returns its ordinal value.
-*
-* @param {Number} day
-* @return {String}
-*/
-export const addOrdinal = (day) => {
-	switch (day) {
-		case 1:
-		case 21:
-			return day + 'st';
-			break;
-		case 2:
-		case 22:
-			return day + 'nd';
-			break;
-		case 3:
-		case 23:
-			return day + 'rd';
-			break;
-		default:
-			return day + 'th';
-	}
-}
-
-/*
-* Takes a "blueprint" object containing keys
-* for a dateString, timeString, and meridiem
-* and returns a String describing it 
-* (e.g., "Friday, October 17th, 1997 at 12:00 AM").
-*
-* @param {Object} date
-* @return {String}
-*
-*/
-export const getDateStringDescriptor = (date) => {
-	const { dateString, timeString, meridiem } = date;
-	const { month, day, year } = deconstructDateString(dateString);
-	const { hours, minutes } = deconstructTimeString(timeString);
-
-	return `${getDayOfTheWeek(date)}, ${monthsOfTheYear[month - 1]} ${addOrdinal(day)}, ${year} at ${prefixWith0(hours)}:${prefixWith0(minutes)} ${meridiem}`;
-}
-
-/*
 * Takes two "blueprint" objects containing keys
 * for a dateString, timeString, and meridiem
 * and returns a summary relative to the present time.
@@ -363,6 +306,7 @@ export const getSummary = (date1, date2) => {
 	const dateObj1 = createDate(date1);
 	const dateObj2 = createDate(date2);
 
+	const isDate1Older = dateObj1 < dateObj2;
 	const isDate1Past = dateObj1 < now;
 	const isDate1Present = isNow(date1);
 	const isDate1Future = dateObj1 > now;
@@ -371,19 +315,16 @@ export const getSummary = (date1, date2) => {
 	const isDate2Present = isNow(date2);
 	const isDate2Future = dateObj2 > now;
 
+
 	let summary;
-
-	const date1Descriptor = getDateStringDescriptor(date1);
-	const date2Descriptor = getDateStringDescriptor(date2);
-
 	if((isDate1Past && isDate2Past) || (isDate1Present && isDate2Present)) {
-		summary = `Time elapsed between ${date1Descriptor} and ${date2Descriptor}`; 
+		summary = `Time elapsed between ${isDate1Older ? date1.dateString : date2.dateString} and ${isDate1Older ? date2.dateString : date1.dateString}`; 
 	} else if(isDate1Future && isDate2Future || ((isDate1Past || isDate2Past) && (isDate1Future || isDate2Future))) {
-		summary = `Time that will elaspe between ${date1Descriptor} and ${date2Descriptor}`; 
+		summary = `Time that will elaspe between ${isDate1Older ? date1.dateString : date2.dateString} and ${isDate1Older ? date2.dateString : date1.dateString}`; 
 	} else if((isDate1Present || isDate2Present) && (isDate1Future || isDate2Future)) {
-		summary = `Time remaining until ${isDate1Future ? date1Descriptor : date2Descriptor}`;
+		summary = `Time remaining until ${isDate1Future ? date1.dateString : date2.dateString}`;
 	} else if((isDate1Present || isDate2Present) && (isDate1Past || isDate2Past)) {
-		summary = `Time elapsed since ${isDate1Past ? date1Descriptor : date2Descriptor}`;
+		summary = `Time elapsed since ${isDate1Past ? date1.dateString : date2.dateString}`;
 	}
 
 	return summary;

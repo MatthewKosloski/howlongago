@@ -1,8 +1,9 @@
 @import '~abstracts';
+@import '~typi';
 
 .modalTitleContainer {
 	text-align: center;
-	margin-bottom: 75px;
+	margin-bottom: vr(3);
 }
 
 .modalTitleContainer__title {
@@ -27,28 +28,23 @@
 }
 
 .inner {
-	padding: 0 10px;
+	padding: 0 vr(1);
 }
 
 .summary {
 	text-align: center;
 }
 
-.dataNodes {
-	margin-bottom: 25px;
-}
-
 .dataNode {
+	@include breakpoint(md) {
+		padding: vr(2) 0;
+	}
 	text-align: center;
-	padding: 30px 0;
-}
-
-.dataNode__title {
-	// font-size: 43px;
+	padding: vr(1) 0;
 }
 
 .dataNode__label {
-	font-size: 14px;
+	font-size: rem(14);
 }
 
 .buttonContainer {

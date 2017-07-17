@@ -6,6 +6,7 @@ $padding: 25;
 	text-transform: uppercase;
 	font-weight: 700;
 	line-height: 45px;
+	font-size: rem(16);
 	padding: 0 addPrefix($padding, 'px');
 	border: 1px solid;
 	cursor: pointer;

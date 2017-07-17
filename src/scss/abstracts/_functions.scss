@@ -13,3 +13,11 @@
 @function addPrefix($num, $prefix) {
 	@return $num + 0#{$prefix};
 }
+
+@function strip-unit($unit) {
+	@return $unit / ($unit * 0 + 1);
+}
+
+@function rem($size) {
+	@return $size / strip-unit($fontBase) + 0rem;
+}

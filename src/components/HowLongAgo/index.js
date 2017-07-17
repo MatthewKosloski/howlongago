@@ -128,7 +128,7 @@ class HowLongAgo extends Component {
 				return(
 					<div key={key} className="l-col-xs-6-of-12 l-col-md-4-of-12">
 						<div className={s.dataNode}>
-							<h2 className={s.dataNode__number}>
+							<h2 className="heading-three">
 								{data[key].toLocaleString()}
 							</h2>
 							<p className={s.dataNode__label}>
@@ -176,7 +176,7 @@ class HowLongAgo extends Component {
 							<Stagger 
 								duration={0.67}
 								delay={0.3}
-								className={`${s.dataNodes} l-row`}>
+								className="l-row">
 								<div className="l-col-xs-12-of-12">
 									<h1 className={`${s.summary} heading-two`}>{getSummary(dates[0], dates[1])}</h1>
 								</div>
